@@ -2,15 +2,15 @@
 
 A todo list app where you can:
 
--add items
+      -add items
 
--delete items
+      -delete items
 
--reorganize items
+      -reorganize items
 
--create new lists
+      -create new lists
 
--share your lists with friends
+      -share your lists with friends
 
 
 Style guides used:
