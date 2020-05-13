@@ -1,5 +1,6 @@
 import React, { Component } from "react";
- 
+import axios from "axios";
+
 class TodoItems extends Component {
   constructor(props) {
     super(props);
@@ -8,24 +9,37 @@ class TodoItems extends Component {
   }
 
   delete(key) {
-    this.props.delete(key);
+    this.makeDeleteCall(key).then((callResult) => {
+      this.props.delete(key);
+    });
   }
-  
+
   createTasks(item) {
-    return <li onClick={ () => this.delete(item.key) }
-               key={item.key}>{item.text}</li>
+    return (
+      <li onClick={() => this.delete(item.key)} key={item.key}>
+        {item.text}
+      </li>
+    );
   }
- 
+  makeDeleteCall(key) {
+    return axios
+      .delete("http://localhost:5000/list/1/".concat(key))
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+  }
+
   render() {
     var todoEntries = this.props.entries;
     var listItems = todoEntries.map(this.createTasks);
- 
-    return (
-      <ul className="theList">
-          {listItems}
-      </ul>
-    );
+
+    return <ul className="theList">{listItems}</ul>;
   }
-};
- 
+}
+
 export default TodoItems;
