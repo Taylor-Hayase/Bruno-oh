@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import TodoItems from "./TodoItems";
 import "./TodoList.css";
- 
-class TodoList extends Component {
 
+class TodoList extends Component {
   constructor(props) {
     super(props);
- 
+
     this.state = {
-      items: []
+      items: [],
     };
 
     this.addItem = this.addItem.bind(this);
@@ -17,55 +16,51 @@ class TodoList extends Component {
 
   addItem(e) {
     if (this._inputElement.value !== "") {
-    var newItem = {
-      text: this._inputElement.value,
-      key: Date.now()
-    };
- 
-    this.setState((prevState) => {
-      return { 
-        items: prevState.items.concat(newItem) 
+      var newItem = {
+        text: this._inputElement.value,
+        key: Date.now(),
       };
-    });
-   
-    this._inputElement.value = "";
-  }
-   
-  console.log(this.state.items);
-     
-  e.preventDefault();
 
+      this.setState((prevState) => {
+        return {
+          items: prevState.items.concat(newItem),
+        };
+      });
 
+      this._inputElement.value = "";
+    }
+
+    console.log(this.state.items);
+
+    e.preventDefault();
   }
 
   deleteItem(key) {
     var filteredItems = this.state.items.filter(function (item) {
-      return (item.key !== key);
+      return item.key !== key;
     });
 
     this.setState({
-      items: filteredItems
+      items: filteredItems,
     });
-
   }
-
 
   render() {
     return (
       <div className="todoListMain">
-        <div className="header">    
+        <div className="header">
           <form onSubmit={this.addItem}>
-              <input ref={(a) => this._inputElement = a} 
-                      placeholder="enter task">
-            </input>
+            <input
+              ref={(a) => (this._inputElement = a)}
+              placeholder="enter task"
+            ></input>
             <button type="submit">Add</button>
           </form>
         </div>
-        <TodoItems entries={this.state.items}
-                   delete={this.deleteItem}/>
+        <TodoItems entries={this.state.items} delete={this.deleteItem} />
       </div>
     );
   }
 }
- 
+
 export default TodoList;

@@ -1,13 +1,26 @@
-import React from 'react';
-import TodoList from './TodoList';
- 
-const listHeader = () => {
+import React from "react";
+import TodoList from "./TodoList";
+
+class ListHeader extends React.Component {
+  state = {
+    rend: false,
+  };
+
+  handleClick = () => {
+    this.setState({
+      rend: !this.state.rend,
+    });
+  };
+
+  render() {
     return (
-       <div>
-          <h1>List #1</h1>
-           <TodoList/>
-       </div>
+      <div>
+        <button onClick={this.handleClick}>
+          {this.state.rend ? "Delete List" : "New List"}
+        </button>
+        {this.state.rend && <h1>List #1</h1> && <TodoList />}
+      </div>
     );
+  }
 }
- 
-export default listHeader;
+export default ListHeader;
