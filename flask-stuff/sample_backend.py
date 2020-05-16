@@ -8,45 +8,48 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
-users = { 
-   'users_list' :
+
+users = {
+   'users_list':
    [
-      { 
-         'id' : 'xyz789',
-         'name' : 'Charlie',
+      {
+         'id': 'xyz789',
+         'name': 'Charlie',
          'job': 'Janitor',
       },
       {
-         'id' : 'abc123', 
+         'id': 'abc123',
          'name': 'Mac',
          'job': 'Bouncer',
       },
       {
-         'id' : 'ppp222', 
+         'id': 'ppp222',
          'name': 'Mac',
          'job': 'Professor',
-      }, 
+      },
       {
-         'id' : 'yat999', 
+         'id': 'yat999',
          'name': 'Dee',
          'job': 'Aspring actress',
       },
       {
-         'id' : 'zap555', 
+         'id': 'zap555', 
          'name': 'Dennis',
          'job': 'Bartender',
       }
    ]
 }
 
+
 def make_id():
-	nums = str(random.randint(100, 999))
-	letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
-	return letters + nums
+    nums = str(random.randint(100, 999))
+    letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
+    return letters + nums
 
 
 @app.route('/users', methods=['GET', 'POST'])
