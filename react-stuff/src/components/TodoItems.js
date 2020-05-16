@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 class TodoItems extends Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class TodoItems extends Component {
   }
 
   delete(key) {
-    this.props.delete(key);
+    this.makeDeleteCall(key).then((callResult) => {
+      this.props.delete(key);
+    });
   }
   forceUpdateHandler() {
     this.forceUpdate();
@@ -60,6 +63,18 @@ class TodoItems extends Component {
         </div>
       );
     }
+  }
+  makeDeleteCall(key) {
+    return axios
+      .delete("http://localhost:5000/list/1/".concat(key))
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
   }
 
   render() {
