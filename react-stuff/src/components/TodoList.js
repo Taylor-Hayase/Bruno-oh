@@ -12,27 +12,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const grid = 8;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: grid,
-  width: 250
-});
-
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -87,6 +66,7 @@ class TodoList extends Component {
       var newItem = {
         text: this._inputElement.value,
         key: Date.now(),
+        checked: false,
       };
       this.makePostCall(newItem).then((callResult) => {
         this.setState((prevState) => {
@@ -139,6 +119,7 @@ class TodoList extends Component {
         if (this.state.items[i].checked === true) {
           this.state.items[i].checked = false;
         } else {
+              console.log("called");
           this.state.items[i].checked = true;
         }
       }
@@ -232,19 +213,16 @@ class TodoList extends Component {
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
+        
             >
             {this.state.items.map((item, index) => (
               <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
                 {(provided, spanshot) => (
-                  <div
+                  <div className="theList"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
+  
                   >
                     {this.createTasks(item)}
                   </div>
