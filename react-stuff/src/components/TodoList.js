@@ -54,15 +54,32 @@ class TodoList extends Component {
       return;
     }
 
-    const items = reorder(
+    const reorderedItems = reorder(
       this.state.items,
       result.source.index,
       result.destination.index
     );
 
-    this.setState({
-      items
+    this.makePatchCall(reorderedItems).then ((callResult) => {
+      this.setState((prevState) => {
+        return {
+          items: reorderedItems,
+        };
+      });
     });
+  }
+
+  makePatchCall(items) {
+    return axios
+      .patch("http://localhost:5000/list/1", items)
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
   }
 
   addItem(e) {
@@ -191,9 +208,6 @@ class TodoList extends Component {
       });
   }
 
-        /*</div>
-        <TodoItems entries={this.state.items} delete={this.deleteItem} />
-      </div>*/
   render() {
 
     var todoEntries = this.state.items;

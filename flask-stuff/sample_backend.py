@@ -27,7 +27,7 @@ def make_id():
     return letters + nums
 
 
-@app.route('/list/1', methods=['GET', 'POST'])
+@app.route('/list/1', methods=['GET', 'POST', 'PATCH'])
 def get_users():
    if request.method == 'GET':
    	return users
@@ -40,6 +40,15 @@ def get_users():
    	else:
    		resp.status_code = 400
    	return resp
+   elif request.method == 'PATCH':
+    newListOrder = request.get_json()
+    users['users_list'] = newListOrder
+    resp = jsonify(newListOrder)
+    if users['users_list'] == newListOrder:
+      resp.status_code = 200
+    else:
+      resp.status_code = 400
+    return resp
 
 @app.route('/list/1/<key>', methods=['GET', 'DELETE'])
 def get_user(key):
