@@ -25,8 +25,8 @@ def make_id():
     letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
     return letters + nums
 
-@app.route('/list/1', methods=['GET', 'POST', 'PATCH'])
-def get_users():
+@app.route('/list/<listId>', methods=['GET', 'POST', 'PATCH'])
+def get_users(listId):
    if request.method == 'GET':
     return users;
    elif request.method == 'POST':

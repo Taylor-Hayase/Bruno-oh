@@ -50,6 +50,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch("http://localhost:5000/list/1", items)
       .then(function (response) {
@@ -83,8 +84,9 @@ class TodoList extends Component {
   }
 
   makePostCall(item) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
-      .post("http://localhost:5000/list/1", item)
+      .post(html, item)
       .then(function (response) {
         console.log(response);
         return response;
@@ -177,8 +179,9 @@ class TodoList extends Component {
   }
 
   makeDeleteCall(key) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
-      .delete("http://localhost:5000/list/1/".concat(key))
+      .delete(html.concat(key))
       .then(function (response) {
         console.log(response);
         return response;
@@ -190,8 +193,9 @@ class TodoList extends Component {
   }
 
   componentDidMount() {
+    var html = "http://localhost:5000/list/" + this.props.id;
     axios
-      .get("http://localhost:5000/list/1")
+      .get(html)
       .then((res) => {
         const items = res.data.users_list;
         this.setState({ items: items });
