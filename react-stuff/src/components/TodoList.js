@@ -18,6 +18,7 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
+      rend: false,
     };
 
     this.addItem = this.addItem.bind(this);
@@ -108,6 +109,7 @@ class TodoList extends Component {
       this.deleteItem(key);
     });
   }
+
   forceUpdateHandler() {
     this.forceUpdate();
   }
@@ -119,12 +121,24 @@ class TodoList extends Component {
         if (this.state.items[i].checked === true) {
           this.state.items[i].checked = false;
         } else {
-              console.log("called");
           this.state.items[i].checked = true;
         }
       }
     }
     this.forceUpdateHandler();
+  };
+
+  handleButtonClick = () => {
+    this.setState({
+      rend: !this.state.rend,
+    });
+    if (this.state.rend === true) {
+      console.log(this.state.items.length);
+      var i;
+      for (i = 0; i < this.state.items.length; i++) {
+        this.delete(this.state.items[i].key);
+      }
+    }
   };
 
   createTasks(item) {
@@ -191,49 +205,49 @@ class TodoList extends Component {
 
   render() {
 
-    var todoEntries = this.state.items;
-    var listItems = todoEntries.map(this.createTasks);
-
-
     return (
-      <div className="todoListMain">
-        <div className="header">
-          <form onSubmit={this.addItem}>
-            <input
-              ref={(a) => (this._inputElement = a)}
-              placeholder="enter task"
-            ></input>
-            <button type="submit">Add</button>
-          </form>
-        </div>
+      <div>
+      <button onClick={this.handleButtonClick}>
+          {this.state.rend ? "Delete List" : "New List"}
+        </button>
+        {this.state.rend && <h1>List #1</h1> && 
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-        
-            >
-            {this.state.items.map((item, index) => (
-              <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
-                {(provided, spanshot) => (
-                  <div className="theList"
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-  
-                  >
-                    {this.createTasks(item)}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+          <div className="todoListMain">
+            <div className="header">
+              <form onSubmit={this.addItem}>
+                <input
+                  ref={(a) => (this._inputElement = a)}
+                  placeholder="enter task"
+                ></input>
+                <button type="submit">Add</button>
+              </form>
+            </div>
+
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                {this.state.items.map((item, index) => (
+                  <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
+                    {(provided, spanshot) => (
+                      <div className="theList"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}>
+                        {this.createTasks(item)}
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        </div>}
     </div>
     );
   }
