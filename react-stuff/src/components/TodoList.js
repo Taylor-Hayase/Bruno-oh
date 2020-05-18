@@ -18,7 +18,7 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
-      rend: false,
+      rend: null,
     };
 
     this.addItem = this.addItem.bind(this);
@@ -133,12 +133,15 @@ class TodoList extends Component {
       rend: !this.state.rend,
     });
     if (this.state.rend === true) {
-      console.log(this.state.items.length);
       var i;
       for (i = 0; i < this.state.items.length; i++) {
         this.delete(this.state.items[i].key);
       }
     }
+    var rendState =
+    {
+      rend: this.state.rend,
+    };
   };
 
   createTasks(item) {
@@ -195,7 +198,13 @@ class TodoList extends Component {
       .get("http://localhost:5000/list/1")
       .then((res) => {
         const items = res.data.users_list;
-        this.setState({ items });
+        this.setState({ items: items });
+        if (items.length > 0) {
+          this.setState({ rend : true });
+        }
+        else {
+          this.setState({ rend : false });
+        }
       })
       .catch(function (error) {
         //Not handling the error. Just logging into the console.

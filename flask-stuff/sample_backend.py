@@ -16,8 +16,7 @@ def hello_world():
 
 users = {
    'users_list':
-   [
-   ]
+   [], 
 }
 
 
@@ -26,11 +25,10 @@ def make_id():
     letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
     return letters + nums
 
-
 @app.route('/list/1', methods=['GET', 'POST', 'PATCH'])
 def get_users():
    if request.method == 'GET':
-   	return users
+    return users;
    elif request.method == 'POST':
    	userToAdd = request.get_json()
    	users['users_list'].append(userToAdd)
