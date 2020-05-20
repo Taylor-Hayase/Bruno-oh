@@ -18,6 +18,7 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
+      //rend: null,
     };
 
     this.addItem = this.addItem.bind(this);
@@ -49,6 +50,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch("http://localhost:5000/list/1", items)
       .then(function (response) {
@@ -82,8 +84,9 @@ class TodoList extends Component {
   }
 
   makePostCall(item) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
-      .post("http://localhost:5000/list/1", item)
+      .post(html, item)
       .then(function (response) {
         console.log(response);
         return response;
@@ -108,6 +111,7 @@ class TodoList extends Component {
       this.deleteItem(key);
     });
   }
+
   forceUpdateHandler() {
     this.forceUpdate();
   }
@@ -119,12 +123,23 @@ class TodoList extends Component {
         if (this.state.items[i].checked === true) {
           this.state.items[i].checked = false;
         } else {
-              console.log("called");
           this.state.items[i].checked = true;
         }
       }
     }
     this.forceUpdateHandler();
+  };
+
+  handleButtonClick = () => {
+    this.setState({
+      rend: !this.props.rend,
+    });
+    if (this.props.rend === true) {
+      var i;
+      for (i = 0; i < this.state.items.length; i++) {
+        this.delete(this.state.items[i].key);
+      }
+    }
   };
 
   createTasks(item) {
@@ -164,8 +179,9 @@ class TodoList extends Component {
   }
 
   makeDeleteCall(key) {
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
-      .delete("http://localhost:5000/list/1/".concat(key))
+      .delete(html.concat(key))
       .then(function (response) {
         console.log(response);
         return response;
@@ -177,11 +193,18 @@ class TodoList extends Component {
   }
 
   componentDidMount() {
+    var html = "http://localhost:5000/list/" + this.props.id;
     axios
-      .get("http://localhost:5000/list/1")
+      .get(html)
       .then((res) => {
         const items = res.data.users_list;
-        this.setState({ items });
+        this.setState({ items: items });
+        if (items.length > 0) {
+          this.setState({ rend : true });
+        }
+        else {
+          this.setState({ rend : false });
+        }
       })
       .catch(function (error) {
         //Not handling the error. Just logging into the console.
@@ -190,50 +213,51 @@ class TodoList extends Component {
   }
 
   render() {
-
-    var todoEntries = this.state.items;
-    var listItems = todoEntries.map(this.createTasks);
-
+    var listName = this.props.name;
 
     return (
-      <div className="todoListMain">
-        <div className="header">
-          <form onSubmit={this.addItem}>
-            <input
-              ref={(a) => (this._inputElement = a)}
-              placeholder="enter task"
-            ></input>
-            <button type="submit">Add</button>
-          </form>
-        </div>
+      <div>
+        {this.props.rend && 
+          <div>
+            <div className="todoListMain">
+              <div className="header">
+                <div><h2>{listName}</h2></div>
+                <button onClick={this.handleButtonClick}>Delete All</button>
+                <form onSubmit={this.addItem}>
+                  <input
+                    ref={(a) => (this._inputElement = a)}
+                    placeholder="enter task"
+                  ></input>
+                  <button type="submit">Add</button>
+                </form>
+              </div>
 
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-        
-            >
-            {this.state.items.map((item, index) => (
-              <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
-                {(provided, spanshot) => (
-                  <div className="theList"
+              <DragDropContext onDragEnd={this.onDragEnd}>
+                <Droppable droppableId="droppable">
+                {(provided, snapshot) => (
+                  <div
+                    {...provided.droppableProps}
                     ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-  
                   >
-                    {this.createTasks(item)}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
+                  {this.state.items.map((item, index) => (
+                    <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
+                      {(provided, spanshot) => (
+                        <div className="theList"
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}>
+                          {this.createTasks(item)}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+        </div>}
     </div>
     );
   }

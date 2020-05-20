@@ -5,8 +5,8 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import Error from "./components/Error";
 import Navigation from "./components/Navigation";
-import List1 from "./components/ListHeader";
-import TodoList from "./components/ListHeader";
+//import TodoList from "./components/TodoList";
+import List from "./components/List";
 
 class App extends Component {
   render() {
@@ -18,7 +18,7 @@ class App extends Component {
             <Route path="/" component={Home} exact />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
-            <Route path="/list/1" component={List1} />
+            <Route path="/list" component={List} />
             <Route component={Error} />
           </Switch>
         </div>
