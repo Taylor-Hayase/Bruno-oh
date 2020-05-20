@@ -26,4 +26,4 @@ install:
 #      - node -e "console.log('Hi from NodeJS!')"
 
 script:
-  - pytest
+  - pytest flask-stuff/test1.py
