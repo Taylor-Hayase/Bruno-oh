@@ -25,7 +25,7 @@ jobs:
     - language: python
       python: 3.8
       script:
-      - python -c "print('Hi from Python!')"
+#     - python -c "print('Hi from Python!')"
       -pytest flask-stuff/test1.py
 
    - language: node_js
