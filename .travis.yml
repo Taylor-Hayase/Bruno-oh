@@ -19,4 +19,4 @@ jobs:
       install:
       - npm install
       script:
-      - npm run build
+      - npm start
