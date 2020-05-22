@@ -14,5 +14,9 @@ jobs:
 
     - language: node_js
       node_js: 12
+      before_script:
+      - cd react-stuff/
+      install:
+      - npm install
       script:
-      - node -e "console.log('Hi from NodeJS!')"
+      - npm run build
