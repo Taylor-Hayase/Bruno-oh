@@ -15,18 +15,18 @@ python:
 # command to run tests
 
 matrix:
-  include:
-    - language: python
-      python: 3.8
-      install:
-         - pip install -r requirements.txt
-      script:
-         - pytest flask-stuff/test1.py
+   include:
+      - language: python
+         python: 3.8
+         install:
+            - pip install -r requirements.txt
+         script:
+            - pytest flask-stuff/test1.py
 
-   - language: node_js
-     node_js: 12
-      script:
-      - node -e "console.log('Hi from NodeJS!')"
+      - language: node_js
+         node_js: 12
+         script:
+            - node -e "console.log('Hi from NodeJS!')"
 
 #script:
 # - pytest flask-stuff/test1.py
