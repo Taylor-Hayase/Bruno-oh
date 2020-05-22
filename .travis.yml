@@ -21,8 +21,7 @@ matrix:
       install:
          - pip install -r requirements.txt
       script:
-#     - python -c "print('Hi from Python!')"
-      -pytest flask-stuff/test1.py
+         - pytest flask-stuff/test1.py
 
    - language: node_js
      node_js: 12
