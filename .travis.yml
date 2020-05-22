@@ -21,4 +21,4 @@ jobs:
       - npm install axios
       - npm install react-beautiful-dnd
       script:
-      - CI=false npm run build
+      - npm run build

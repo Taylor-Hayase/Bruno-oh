@@ -18,7 +18,6 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
-      //rend: null,
     };
 
     this.addItem = this.addItem.bind(this);
@@ -50,7 +49,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
-    var html = "http://localhost:5000/list/" + this.props.id;
+    //var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch("http://localhost:5000/list/1", items)
       .then(function (response) {
@@ -121,9 +120,17 @@ class TodoList extends Component {
     for (i = 0; i < this.state.items.length; i++) {
       if (this.state.items[i].key === key) {
         if (this.state.items[i].checked === true) {
-          this.state.items[i].checked = false;
+          let items = [...this.state.items];
+          let item = {...items[i]};
+          item.checked = false;
+          items[i] = item;
+          this.setState({items});
         } else {
-          this.state.items[i].checked = true;
+          let items = [...this.state.items];
+          let item = {...items[i]};
+          item.checked = true;
+          items[i] = item;
+          this.setState({items});
         }
       }
     }
