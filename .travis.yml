@@ -18,5 +18,6 @@ jobs:
       - cd react-stuff/
       install:
       - npm install
+      - npm install axios
       script:
       - npm run build
