@@ -68,6 +68,7 @@ class TodoList extends Component {
         text: this._inputElement.value,
         key: Date.now(),
         checked: false,
+        due: this._inputTime.value,
       };
       this.makePostCall(newItem).then((callResult) => {
         this.setState((prevState) => {
@@ -76,6 +77,7 @@ class TodoList extends Component {
           };
         });
         this._inputElement.value = "";
+        this._inputTime.value = "";
       });
       console.log(this.state.items);
       e.preventDefault();
@@ -158,7 +160,7 @@ class TodoList extends Component {
             className="checked"
             key={item.key}
           >
-            {item.text}
+            {item.text + "\t" + item.due}
           </li>
           <button
             onClick={() => this.delete(item.key)}
@@ -172,7 +174,7 @@ class TodoList extends Component {
       return (
         <div>
           <li onClick={() => this.handleClick(item.key)} key={item.key}>
-            {item.text}
+            {item.text + "\t" + item.due}
           </li>
           <button
             onClick={() => this.delete(item.key)}
@@ -234,6 +236,10 @@ class TodoList extends Component {
                   <input
                     ref={(a) => (this._inputElement = a)}
                     placeholder="enter task"
+                  ></input>
+                  <input
+                    ref={(a) => (this._inputTime = a)}
+                    placeholder="enter due date"
                   ></input>
                   <button type="submit">Add</button>
                 </form>
