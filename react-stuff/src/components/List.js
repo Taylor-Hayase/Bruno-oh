@@ -4,6 +4,7 @@ import TodoList from "./TodoList";
 
 class List extends Component {
 
+
 	constructor(props) {
 		super(props);
 
@@ -18,20 +19,31 @@ class List extends Component {
 		this.handleClickDel = this.handleClickDel.bind(this);
 	}
 
+
 	handleClickNew() {
 		console.log("clicked")
 		this.setState({
       		rend: true,
     	});
-    	this.state.numLists++;
-    	this.state.lists.push("List " + this.state.idCount);
-    	this.state.idCount++;
-    	console.log(this.state.lists);
+    	this.setState((prevState) => ({
+    		numLists: prevState.numLists + 1,
+    	}));
+    	this.setState({
+    		lists: [...this.state.lists, "List " + this.state.idCount],
+    	});
+    	this.setState((prevState) => ({
+    		idCount: prevState.idCount + 1,
+    	}));
+    	console.log(this.state.numLists);
 	}
 
 	handleClickDel() {
 		console.log("clicked")
-    	this.state.numLists--;
+		this.setState((prevState) => ({
+			numLists: prevState.numLists - 1,
+		}));
+		console.log(this.state.numLists);
+		//this.state.numLists--;
     	this.state.lists.shift();
 
     	if (this.state.numLists === 0) {

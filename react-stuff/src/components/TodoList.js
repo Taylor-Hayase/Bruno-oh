@@ -18,7 +18,6 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
-      //rend: null,
     };
 
     this.addItem = this.addItem.bind(this);
@@ -50,7 +49,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
-    var html = "http://localhost:5000/list/" + this.props.id;
+    //var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch("http://localhost:5000/list/1", items)
       .then(function (response) {
@@ -69,6 +68,7 @@ class TodoList extends Component {
         text: this._inputElement.value,
         key: Date.now(),
         checked: false,
+        due: this._inputTime.value,
       };
       this.makePostCall(newItem).then((callResult) => {
         this.setState((prevState) => {
@@ -77,6 +77,7 @@ class TodoList extends Component {
           };
         });
         this._inputElement.value = "";
+        this._inputTime.value = "";
       });
       console.log(this.state.items);
       e.preventDefault();
@@ -121,9 +122,17 @@ class TodoList extends Component {
     for (i = 0; i < this.state.items.length; i++) {
       if (this.state.items[i].key === key) {
         if (this.state.items[i].checked === true) {
-          this.state.items[i].checked = false;
+          let items = [...this.state.items];
+          let item = {...items[i]};
+          item.checked = false;
+          items[i] = item;
+          this.setState({items});
         } else {
-          this.state.items[i].checked = true;
+          let items = [...this.state.items];
+          let item = {...items[i]};
+          item.checked = true;
+          items[i] = item;
+          this.setState({items});
         }
       }
     }
@@ -151,7 +160,7 @@ class TodoList extends Component {
             className="checked"
             key={item.key}
           >
-            {item.text}
+            {item.text + "\t" + item.due}
           </li>
           <button
             onClick={() => this.delete(item.key)}
@@ -165,7 +174,7 @@ class TodoList extends Component {
       return (
         <div>
           <li onClick={() => this.handleClick(item.key)} key={item.key}>
-            {item.text}
+            {item.text + "\t" + item.due}
           </li>
           <button
             onClick={() => this.delete(item.key)}
@@ -227,6 +236,10 @@ class TodoList extends Component {
                   <input
                     ref={(a) => (this._inputElement = a)}
                     placeholder="enter task"
+                  ></input>
+                  <input
+                    ref={(a) => (this._inputTime = a)}
+                    placeholder="enter due date"
                   ></input>
                   <button type="submit">Add</button>
                 </form>
