@@ -49,9 +49,9 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
-    //var html = "http://localhost:5000/list/" + this.props.id;
+    var html = "http://localhost:5000/list/" + this.props.id;
     return axios
-      .patch("http://localhost:5000/list/1", items)
+      .patch(html, items)
       .then(function (response) {
         console.log(response);
         return response;
@@ -188,7 +188,7 @@ class TodoList extends Component {
   }
 
   makeDeleteCall(key) {
-    var html = "http://localhost:5000/list/" + this.props.id;
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
     return axios
       .delete(html.concat(key))
       .then(function (response) {
