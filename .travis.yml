@@ -17,7 +17,7 @@ jobs:
       before_script:
       - cd react-stuff/
       install:
-      - cd react-stuff/
       - npm install
       script:
+      - npm install
       - npm run build
