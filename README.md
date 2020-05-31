@@ -9,6 +9,8 @@ A todo list app where you can:
       -reorganize items
 
       -create new lists
+      
+      -create an account to save all your lists
 
       -share your lists with friends
 
