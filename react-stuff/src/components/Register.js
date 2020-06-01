@@ -36,11 +36,12 @@ class Register extends Component {
         username: this.state.username,
         password: this.state.password,
       };
+      console.log(payload);
       axios
         .post(apiBaseUrl + "/signup", payload)
         .then(function (response) {
           console.log(response);
-          if (response.data.code === 200) {
+          if (response.status === 200) {
             console.log("registration successful");
             var loginscreen = [];
             loginscreen.push(

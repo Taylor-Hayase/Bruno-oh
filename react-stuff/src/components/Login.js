@@ -92,7 +92,7 @@ class Login extends Component {
       .post("http://localhost:5000/", payload)
       .then(function (response) {
         console.log(response);
-        if (response.data.code === 200) {
+        if (response.status === 200) {
           console.log("Login successful");
           var uploadScreen = [];
           uploadScreen.push(<Home appContext={self.props.appContext} />);
@@ -100,7 +100,7 @@ class Login extends Component {
             loginPage: [],
             uploadScreen: uploadScreen,
           });
-        } else if (response.data.code === 204) {
+        } else if (response.status === 204) {
           console.log("Username password do not match");
           alert(response.data.success);
         } else {
