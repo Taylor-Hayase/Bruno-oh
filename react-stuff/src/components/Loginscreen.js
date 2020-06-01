@@ -52,6 +52,12 @@ class Loginscreen extends Component {
       loginmessage: loginmessage,
     });
   }
+
+  childFunction = (e) => {
+    e.preventDefault();
+    this.props.FunctionCallFromParent("hi from register");
+  };
+
   handleClick(event) {
     console.log("event");
     var loginmessage;

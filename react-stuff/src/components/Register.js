@@ -11,6 +11,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+import DataStore from "./DataStore";
 
 class Register extends Component {
   constructor(props) {
@@ -52,6 +53,9 @@ class Register extends Component {
             var loginscreen = [];
             console.log("registration successful");
             self.setState({ loginsucc: true });
+            console.log(response.data._id);
+            window.user_id = response.data._id;
+            console.log(window.user_id);
             var loginmessage = "Not Registered yet. Go to registration";
             self.props.parentContext.setState({
               loginscreen: loginscreen,

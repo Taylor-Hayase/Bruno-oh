@@ -17,6 +17,7 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
+      user: "",
     };
 
     this.addItem = this.addItem.bind(this);
@@ -92,6 +93,7 @@ class TodoList extends Component {
       .post(html, item)
       .then(function (response) {
         console.log(response);
+        console.log(this.user);
         return response;
       })
       .catch(function (error) {
@@ -209,7 +211,7 @@ class TodoList extends Component {
       .get(html)
       .then((res) => {
         const items = res.data.users_list;
-        this.setState({ items: items });
+        this.setState({ items: items, user: window.user_id });
         if (items.length > 0) {
           this.setState({ rend: true });
         } else {
@@ -224,7 +226,6 @@ class TodoList extends Component {
 
   render() {
     var listName = this.props.name;
-
     return (
       <div>
         {this.props.rend && (
