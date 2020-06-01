@@ -102,6 +102,8 @@ class Login extends Component {
         console.log(response);
         if (response.status === 200) {
           console.log("Login successful");
+          //here we retrieve the _id from response to save
+          window.user_id = response.data._id;
           self.setState({ loginsucc: true });
         } else if (response.status === 204) {
           console.log("Username password do not match");
