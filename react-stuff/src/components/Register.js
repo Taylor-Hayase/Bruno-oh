@@ -5,6 +5,12 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import axios from "axios";
 import Login from "./Login";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 
 class Register extends Component {
   constructor(props) {
@@ -14,6 +20,7 @@ class Register extends Component {
       last_name: "",
       username: "",
       password: "",
+      loginsucc: false,
     };
   }
   componentWillReceiveProps(nextProps) {
@@ -42,11 +49,9 @@ class Register extends Component {
         .then(function (response) {
           console.log(response);
           if (response.status === 200) {
-            console.log("registration successful");
             var loginscreen = [];
-            loginscreen.push(
-              <Login parentContext={this} appContext={self.props.appContext} />
-            );
+            console.log("registration successful");
+            self.setState({ loginsucc: true });
             var loginmessage = "Not Registered yet. Go to registration";
             self.props.parentContext.setState({
               loginscreen: loginscreen,
@@ -67,6 +72,9 @@ class Register extends Component {
   }
   render() {
     // console.log("props",this.props);
+    if (this.state.loginsucc === true) {
+      return <Redirect to="/home/" />;
+    }
     return (
       <div>
         <MuiThemeProvider>

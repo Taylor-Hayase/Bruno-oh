@@ -1,4 +1,10 @@
 import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
@@ -44,8 +50,10 @@ class Login extends Component {
       username: "",
       password: "",
       menuValue: 1,
+      loginsucc: false,
       loginComponent: localloginComponent,
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
   componentWillMount() {
     // console.log("willmount prop values",this.props);
@@ -94,12 +102,7 @@ class Login extends Component {
         console.log(response);
         if (response.status === 200) {
           console.log("Login successful");
-          var uploadScreen = [];
-          uploadScreen.push(<Home appContext={self.props.appContext} />);
-          self.props.appContext.setState({
-            loginPage: [],
-            uploadScreen: uploadScreen,
-          });
+          self.setState({ loginsucc: true });
         } else if (response.status === 204) {
           console.log("Username password do not match");
           alert(response.data.success);
@@ -149,6 +152,9 @@ class Login extends Component {
     this.setState({ menuValue: value, loginComponent: localloginComponent });
   }
   render() {
+    if (this.state.loginsucc === true) {
+      return <Redirect to="/home/" />;
+    }
     return (
       <div>
         <MuiThemeProvider>
@@ -158,6 +164,9 @@ class Login extends Component {
       </div>
     );
   }
+  onSubmit = () => {
+    return <Redirect to="/home" />;
+  };
 }
 
 const style = {
