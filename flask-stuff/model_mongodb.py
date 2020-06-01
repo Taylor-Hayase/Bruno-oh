@@ -47,7 +47,12 @@ class User(Model):
         return users
 
     def find_by_name(self, name):
-        users = list(self.collection.find({"name": name}))
+        users = list(self.collection.find({"username": name}))
+        for user in users:
+            user["_id"] = str(user["_id"])
+        return users
+    def find_by_login(self, name, password):
+        users = list(self.collection.find({"username": name, "password":password}))
         for user in users:
             user["_id"] = str(user["_id"])
         return users
