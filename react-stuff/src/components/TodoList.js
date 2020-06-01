@@ -49,6 +49,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
+    //html is ... this.state.user + list + this.props.id
     var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch(html, items)
@@ -88,6 +89,7 @@ class TodoList extends Component {
   }
 
   makePostCall(item) {
+    //html is now ... this.state.user + list + this.props.id
     var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .post(html, item)
