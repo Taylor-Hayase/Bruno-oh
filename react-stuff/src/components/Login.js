@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
@@ -12,7 +7,7 @@ import TextField from "material-ui/TextField";
 //import DropDownMenu from 'material-ui/DropDownMenu';
 //import MenuItem from 'material-ui/MenuItem';
 import axios from "axios";
-import Home from "./Home";
+
 class Login extends Component {
   constructor(props) {
     super(props);

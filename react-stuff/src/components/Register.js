@@ -4,14 +4,7 @@ import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import axios from "axios";
-import Login from "./Login";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
-import DataStore from "./DataStore";
+import { Redirect } from "react-router-dom";
 
 class Register extends Component {
   constructor(props) {
