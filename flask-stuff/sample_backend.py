@@ -1,5 +1,6 @@
 import random
 import string
+from model_mongodb import User
 
 from flask import Flask
 from flask import request
@@ -7,7 +8,12 @@ from flask import jsonify
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
-
+'''
+python3 -m venv venv;
+export FLASK_APP=sample_backend.py;
+export FLASK_ENV=development;
+flask run;
+'''
 
 @app.route('/')
 def hello_world():
@@ -24,6 +30,63 @@ def make_id():
     nums = str(random.randint(100, 999))
     letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
     return letters + nums
+@app.route('/',methods=['POST'])
+def sign_in():
+    truth = request.get_json()
+    search_username = truth.get('username')
+    search_password = truth.get('password')
+    if search_username and search_password:
+        found = User().find_by_login(search_username, search_password)
+        if (len(found) ==0):
+            return {}, 204
+        else:
+            print(found)
+            #//found.append({'code', 200})
+            return jsonify(found), 200
+    elif search_username:
+        return  {}, 204
+    else:
+        return {}, 204 
+
+@app.route('/signup',methods=['POST'])
+def sign_up():
+    #For registering
+    truth = request.get_json()
+    print(truth, type(truth))
+    search_username = truth['username']
+    search_password = truth['password']
+    first_name = truth['first_name']
+    last_name =  truth['last_name']
+    print(search_username, search_password, first_name, last_name)
+    if search_username and search_password:
+        found = User().find_by_name(search_username)
+        if (len(found) ==0):
+            userToAdd = truth
+            #userToAdd['id'] = generate_id()
+            users['users_list'].append(userToAdd)
+            newUser = User(userToAdd)
+            newUser.save()
+            resp = jsonify(newUser), 200
+            return resp
+        else:
+            return jsonify(found), 204
+    elif search_username:
+        return  {}, 204
+    else:
+        return {}, 204 
+@app.route('/<user>/list',methods=['GET', 'POST'])
+def create_list(user):
+    return None
+@app.route('/<user>/list/<listNum>',methods=['POST', 'GET', 'DELETE'])
+    #adding , getting, and deleting lists
+def get_list(user, listNum):
+    return None
+@app.route('/<user>/list/<listNum>/<itemId>',methods=['GET', 'POST', 'DELETE'])
+    #do we want an update?
+def get_item(user, listNum):
+    return None
+
+
 
 @app.route('/list/<listId>', methods=['GET', 'POST', 'PATCH'])
 def get_users(listId):
@@ -66,3 +129,9 @@ def get_user(key):
    	resp.status_code = 400
    	return resp	
    return users
+def find_user_by_username(username):
+    subdict = {'users_list' : []}
+    for user in users['users_list']:
+        if user['name'] == name:
+            subdict['users_list'].append(user)
+    return subdict  

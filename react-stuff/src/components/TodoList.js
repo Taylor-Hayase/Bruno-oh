@@ -3,7 +3,6 @@ import "./TodoList.css";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -39,7 +38,7 @@ class TodoList extends Component {
       result.destination.index
     );
 
-    this.makePatchCall(reorderedItems).then ((callResult) => {
+    this.makePatchCall(reorderedItems).then((callResult) => {
       this.setState((prevState) => {
         return {
           items: reorderedItems,
@@ -64,6 +63,9 @@ class TodoList extends Component {
 
   addItem(e) {
     if (this._inputElement.value !== "") {
+      if (this._inputTime.value !== "") {
+        this._inputTime.value = "due: " + this._inputTime.value;
+      }
       var newItem = {
         text: this._inputElement.value,
         key: Date.now(),
@@ -123,16 +125,16 @@ class TodoList extends Component {
       if (this.state.items[i].key === key) {
         if (this.state.items[i].checked === true) {
           let items = [...this.state.items];
-          let item = {...items[i]};
+          let item = { ...items[i] };
           item.checked = false;
           items[i] = item;
-          this.setState({items});
+          this.setState({ items });
         } else {
           let items = [...this.state.items];
-          let item = {...items[i]};
+          let item = { ...items[i] };
           item.checked = true;
           items[i] = item;
-          this.setState({items});
+          this.setState({ items });
         }
       }
     }
@@ -209,10 +211,9 @@ class TodoList extends Component {
         const items = res.data.users_list;
         this.setState({ items: items });
         if (items.length > 0) {
-          this.setState({ rend : true });
-        }
-        else {
-          this.setState({ rend : false });
+          this.setState({ rend: true });
+        } else {
+          this.setState({ rend: false });
         }
       })
       .catch(function (error) {
@@ -226,11 +227,13 @@ class TodoList extends Component {
 
     return (
       <div>
-        {this.props.rend && 
+        {this.props.rend && (
           <div>
             <div className="todoListMain">
               <div className="header">
-                <div><h2>{listName}</h2></div>
+                <div>
+                  <h2>{listName}</h2>
+                </div>
                 <button onClick={this.handleButtonClick}>Delete All</button>
                 <form onSubmit={this.addItem}>
                   <input
@@ -247,31 +250,35 @@ class TodoList extends Component {
 
               <DragDropContext onDragEnd={this.onDragEnd}>
                 <Droppable droppableId="droppable">
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                  {this.state.items.map((item, index) => (
-                    <Draggable key={item.key.toString()} draggableId={item.key.toString()} index={index}>
-                      {(provided, spanshot) => (
-                        <div className="theList"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}>
-                          {this.createTasks(item)}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                  {(provided, snapshot) => (
+                    <div {...provided.droppableProps} ref={provided.innerRef}>
+                      {this.state.items.map((item, index) => (
+                        <Draggable
+                          key={item.key.toString()}
+                          draggableId={item.key.toString()}
+                          index={index}
+                        >
+                          {(provided, spanshot) => (
+                            <div
+                              className="theList"
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              {this.createTasks(item)}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
           </div>
-        </div>}
-    </div>
+        )}
+      </div>
     );
   }
 }
