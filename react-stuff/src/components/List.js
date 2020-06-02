@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TodoList from "./TodoList";
+import "./TodoList.css";
 
 class List extends Component {
   constructor(props) {
@@ -52,10 +53,7 @@ class List extends Component {
   render() {
     return (
       <div>
-        <h1>User 1: Lists</h1>
-
-        <button onClick={this.handleClickNew}>{"Make new list"}</button>
-        <button onClick={this.handleClickDel}>{"Delete top list"}</button>
+        <h2>Your Lists</h2>
 
         {this.state.lists.map((lname) => (
           <TodoList
@@ -65,6 +63,10 @@ class List extends Component {
             rend={this.state.rend}
           />
         ))}
+
+        <button className="button" onClick={this.handleClickNew}>
+          {"Make new list"}
+        </button>
       </div>
     );
   }

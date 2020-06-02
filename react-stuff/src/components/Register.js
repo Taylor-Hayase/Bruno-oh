@@ -17,9 +17,7 @@ class Register extends Component {
       loginsucc: false,
     };
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
-  }
+
   handleClick(event) {
     var apiBaseUrl = "http://localhost:5000";
     // console.log("values in register handler");

@@ -4,7 +4,8 @@ const Contact = () => {
   return (
     <div>
       <h1>Contact US</h1>
-      <p>Contact US page body content</p>
+      <p>Please send any questions to:</p>
+      <p>justdoitapp@gmail.com</p>
     </div>
   );
 };

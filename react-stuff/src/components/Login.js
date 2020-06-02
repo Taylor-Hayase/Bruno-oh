@@ -53,9 +53,8 @@ class Login extends Component {
   componentWillMount() {
     // console.log("willmount prop values",this.props);
     var localloginComponent = [];
-    console.log("in login componentWillMount");
     localloginComponent.push(
-      <MuiThemeProvider>
+      <MuiThemeProvider key={"start"}>
         <div>
           <TextField
             hintText="Enter your username"
@@ -117,7 +116,7 @@ class Login extends Component {
     var localloginComponent = [];
     if (value === 1) {
       localloginComponent.push(
-        <MuiThemeProvider>
+        <MuiThemeProvider key={"menu"}>
           <div>
             <TextField
               hintText="Enter your username"
