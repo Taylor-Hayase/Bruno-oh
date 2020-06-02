@@ -211,7 +211,7 @@ class TodoList extends Component {
       .then((res) => {
         const items = res.data.users_list;
         this.setState({ items: items });
-        if (this.state.user !== "") {
+        if (this.items.length !== 0) {
           this.setState({ rend: true });
         } else {
           this.setState({ rend: false });

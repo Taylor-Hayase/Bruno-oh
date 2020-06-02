@@ -11,6 +11,7 @@ class List extends Component {
       lists: [],
       numLists: 0,
       idCount: 1,
+      user: "",
     };
 
     this.handleClickNew = this.handleClickNew.bind(this);
@@ -49,6 +50,33 @@ class List extends Component {
     this.forceUpdate();
     console.log(this.state.lists);
   }
+
+  /*componentDidMount() {
+    this.setState({ user: window.user_id });
+    if (this.state.user !== "") {
+      console.log("A logged in user");
+    } else {
+      console.log("A guest user");
+    }
+    //once get multiple lists on backend, will retrieve any lists connected to user
+    var html = "http://localhost:5000/list/" + this.props.id;
+    axios
+      .get(html)
+      .then((res) => {
+        const listsFromData = res.data.users_list;
+        this.setState({ numLists : listsFromData.length });
+        if (this.state.numLists > 0) {
+          //copy over lists to lists state
+          this.setStare({ lists: listsFromData });
+        } else {
+          //nothing
+        }
+      })
+      .catch(function (error) {
+        //Not handling the error. Just logging into the console.
+        console.log(error);
+      });
+  }*/
 
   render() {
     return (
