@@ -63,7 +63,7 @@ def sign_up():
         if (len(found) ==0):
             userToAdd = truth
             #userToAdd['id'] = generate_id()
-            users['users_list'].append(userToAdd)
+            #users['users_list'].append(userToAdd)
             newUser = User(userToAdd)
             newUser.save()
             resp = jsonify(newUser), 200
