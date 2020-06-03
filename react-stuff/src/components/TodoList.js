@@ -17,6 +17,7 @@ class TodoList extends Component {
 
     this.state = {
       items: [],
+      user: "",
     };
 
     this.addItem = this.addItem.bind(this);
@@ -48,6 +49,7 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
+    //html is ... this.state.user + list + this.props.id
     var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .patch(html, items)
@@ -87,11 +89,13 @@ class TodoList extends Component {
   }
 
   makePostCall(item) {
+    //html is now ... this.state.user + list + this.props.id
     var html = "http://localhost:5000/list/" + this.props.id;
     return axios
       .post(html, item)
       .then(function (response) {
         console.log(response);
+        console.log(this.state.user);
         return response;
       })
       .catch(function (error) {
@@ -142,9 +146,6 @@ class TodoList extends Component {
   };
 
   handleButtonClick = () => {
-    this.setState({
-      rend: !this.props.rend,
-    });
     if (this.props.rend === true) {
       var i;
       for (i = 0; i < this.state.items.length; i++) {
@@ -163,13 +164,10 @@ class TodoList extends Component {
             key={item.key}
           >
             {item.text + "\t" + item.due}
+            <button onClick={() => this.delete(item.key)} className="button">
+              Remove
+            </button>
           </li>
-          <button
-            onClick={() => this.delete(item.key)}
-            className="btn btn-lg btn-outline-danger ml-4"
-          >
-            Remove
-          </button>
         </div>
       );
     } else {
@@ -177,13 +175,10 @@ class TodoList extends Component {
         <div>
           <li onClick={() => this.handleClick(item.key)} key={item.key}>
             {item.text + "\t" + item.due}
+            <button onClick={() => this.delete(item.key)} className="button">
+              Remove
+            </button>
           </li>
-          <button
-            onClick={() => this.delete(item.key)}
-            className="btn btn-lg btn-outline-danger ml-4"
-          >
-            Remove
-          </button>
         </div>
       );
     }
@@ -204,13 +199,19 @@ class TodoList extends Component {
   }
 
   componentDidMount() {
+    this.setState({ user: window.user_id });
+    if (this.state.user !== "") {
+      console.log("A logged in user");
+    } else {
+      console.log("A guest user");
+    }
     var html = "http://localhost:5000/list/" + this.props.id;
     axios
       .get(html)
       .then((res) => {
         const items = res.data.users_list;
         this.setState({ items: items });
-        if (items.length > 0) {
+        if (this.items.length !== 0) {
           this.setState({ rend: true });
         } else {
           this.setState({ rend: false });
@@ -224,7 +225,6 @@ class TodoList extends Component {
 
   render() {
     var listName = this.props.name;
-
     return (
       <div>
         {this.props.rend && (
@@ -232,9 +232,8 @@ class TodoList extends Component {
             <div className="todoListMain">
               <div className="header">
                 <div>
-                  <h2>{listName}</h2>
+                  <h3>{listName}</h3>
                 </div>
-                <button onClick={this.handleButtonClick}>Delete All</button>
                 <form onSubmit={this.addItem}>
                   <input
                     ref={(a) => (this._inputElement = a)}
@@ -245,6 +244,7 @@ class TodoList extends Component {
                     placeholder="enter due date"
                   ></input>
                   <button type="submit">Add</button>
+                  <button onClick={this.handleButtonClick}>Delete List</button>
                 </form>
               </div>
 

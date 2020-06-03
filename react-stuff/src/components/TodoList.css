@@ -56,3 +56,18 @@
 ul.theList {
   padding: 0;
 }
+
+.button {
+  padding: 10px;
+  font-size: 16px;
+  margin: 10px;
+  margin-right: 0px;
+  background-color: #0066ff;
+  color: #fff;
+  border: 2px solid #0066ff;
+}
+.button:hover {
+  background-color: #003399;
+  border: 2px solid #003399;
+  cursor: pointer;
+}

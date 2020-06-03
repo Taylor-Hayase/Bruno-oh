@@ -4,13 +4,7 @@ import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import axios from "axios";
-import Login from "./Login";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 class Register extends Component {
   constructor(props) {
@@ -23,9 +17,7 @@ class Register extends Component {
       loginsucc: false,
     };
   }
-  componentWillReceiveProps(nextProps) {
-    console.log("nextProps", nextProps);
-  }
+
   handleClick(event) {
     var apiBaseUrl = "http://localhost:5000";
     // console.log("values in register handler");
@@ -52,6 +44,9 @@ class Register extends Component {
             var loginscreen = [];
             console.log("registration successful");
             self.setState({ loginsucc: true });
+            console.log(response.data._id);
+            window.user_id = response.data._id;
+            console.log(window.user_id);
             var loginmessage = "Not Registered yet. Go to registration";
             self.props.parentContext.setState({
               loginscreen: loginscreen,

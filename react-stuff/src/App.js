@@ -9,21 +9,6 @@ import List from "./components/List";
 import Loginscreen from "./components/Loginscreen";
 
 class App extends Component {
-  /*constructor(props){
-    super(props);
-    this.state={
-      loginPage:[],
-      uploadScreen:[]
-    }
-  }
-  componentWillMount(){
-    var loginPage =[];
-    loginPage.push(<Loginscreen parentContext={this}/>);
-    this.setState({
-                  loginPage:loginPage
-                    })
-  } **/
-
   render() {
     return (
       <BrowserRouter>

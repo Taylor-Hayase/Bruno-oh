@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import RaisedButton from "material-ui/RaisedButton";
@@ -12,7 +7,7 @@ import TextField from "material-ui/TextField";
 //import DropDownMenu from 'material-ui/DropDownMenu';
 //import MenuItem from 'material-ui/MenuItem';
 import axios from "axios";
-import Home from "./Home";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -58,9 +53,8 @@ class Login extends Component {
   componentWillMount() {
     // console.log("willmount prop values",this.props);
     var localloginComponent = [];
-    console.log("in login componentWillMount");
     localloginComponent.push(
-      <MuiThemeProvider>
+      <MuiThemeProvider key={"start"}>
         <div>
           <TextField
             hintText="Enter your username"
@@ -102,6 +96,8 @@ class Login extends Component {
         console.log(response);
         if (response.status === 200) {
           console.log("Login successful");
+          //here we retrieve the _id from response to save
+          window.user_id = response.data._id;
           self.setState({ loginsucc: true });
         } else if (response.status === 204) {
           console.log("Username password do not match");
@@ -120,7 +116,7 @@ class Login extends Component {
     var localloginComponent = [];
     if (value === 1) {
       localloginComponent.push(
-        <MuiThemeProvider>
+        <MuiThemeProvider key={"menu"}>
           <div>
             <TextField
               hintText="Enter your username"
