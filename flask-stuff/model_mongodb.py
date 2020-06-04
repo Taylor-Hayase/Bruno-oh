@@ -16,6 +16,13 @@ class Model(dict):
             self.collection.update(
                 { "_id": ObjectId(self._id) }, self)
         self._id = str(self._id)
+    def saveList(self):
+        if not self._id:
+            self.lists.insert(self)
+        else:
+            self.lists.update(
+                { "_id": ObjectId(self._id) }, self)
+        self._id = str(self._id)
 
     def reload(self):
         if self._id:
@@ -31,6 +38,7 @@ class Model(dict):
 class User(Model):
     db_client = pymongo.MongoClient('localhost', 27017)
     collection = db_client["users"]["users_list"]
+    lists = db_client["users"]["lists"]
 
     def add_user(self, user):
         return None
@@ -55,6 +63,9 @@ class User(Model):
         users = list(self.collection.find({"username": name, "password":password}))
         for user in users:
             user["_id"] = str(user["_id"])
+        return users
+    def find_all_lists(self, name):
+        users = list(self.lists.find({"username": name}))
         return users
 
     def delete_user(self, user):

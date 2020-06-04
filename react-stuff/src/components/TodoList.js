@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./TodoList.css";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import "./DataStore.js";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -50,7 +51,13 @@ class TodoList extends Component {
 
   makePatchCall(items) {
     //html is ... this.state.user + list + this.props.id
-    var html = "http://localhost:5000/list/" + this.props.id;
+    //this is to update item in list
+    var html =
+      "http://localhost:5000/list/" +
+      this.state.user +
+      "/" +
+      this.props.id +
+      "/";
     return axios
       .patch(html, items)
       .then(function (response) {
@@ -90,7 +97,13 @@ class TodoList extends Component {
 
   makePostCall(item) {
     //html is now ... this.state.user + list + this.props.id
-    var html = "http://localhost:5000/list/" + this.props.id;
+    //for item
+    var html =
+      "http://localhost:5000/list/" +
+      this.state.user +
+      "/" +
+      this.props.id +
+      "/";
     return axios
       .post(html, item)
       .then(function (response) {
@@ -185,7 +198,13 @@ class TodoList extends Component {
   }
 
   makeDeleteCall(key) {
-    var html = "http://localhost:5000/list/" + this.props.id + "/";
+    //for item
+    var html =
+      "http://localhost:5000/list/" +
+      this.state.user +
+      "/" +
+      this.props.id +
+      "/";
     return axios
       .delete(html.concat(key))
       .then(function (response) {
@@ -205,7 +224,7 @@ class TodoList extends Component {
     } else {
       console.log("A guest user");
     }
-    var html = "http://localhost:5000/list/" + this.props.id;
+    var html = "http://localhost:5000/list/" + window.user_id + "/";
     axios
       .get(html)
       .then((res) => {

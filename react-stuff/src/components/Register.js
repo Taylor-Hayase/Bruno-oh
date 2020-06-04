@@ -5,6 +5,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import "./DataStore.js";
 
 class Register extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Register extends Component {
       username: "",
       password: "",
       loginsucc: false,
+      user_id: "",
     };
   }
 
@@ -44,15 +46,17 @@ class Register extends Component {
             var loginscreen = [];
             console.log("registration successful");
             self.setState({ loginsucc: true });
-            console.log(response.data._id);
+            //console.log(response.data._id);
+            window.user = response.data._id;
             window.user_id = response.data._id;
-            console.log(window.user_id);
+            //console.log(window.user_id);
             var loginmessage = "Not Registered yet. Go to registration";
             self.props.parentContext.setState({
               loginscreen: loginscreen,
               loginmessage: loginmessage,
               buttonLabel: "Register",
               isLogin: true,
+              user_id: window.user_id,
             });
           } else {
             console.log("some error ocurred", response.data.code);
@@ -68,7 +72,11 @@ class Register extends Component {
   render() {
     // console.log("props",this.props);
     if (this.state.loginsucc === true) {
-      return <Redirect to="/home/" />;
+      return (
+        <div>
+          <Redirect to="/home/" />
+        </div>
+      );
     }
     return (
       <div>

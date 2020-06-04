@@ -1,7 +1,8 @@
 import { Component } from "react";
 
 class DataStore extends Component {
-  constructor() {
+  constructor(props) {
+    super(props);
     window.user_id = "";
   }
 }

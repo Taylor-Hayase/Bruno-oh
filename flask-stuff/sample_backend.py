@@ -74,15 +74,32 @@ def sign_up():
         return  {}, 204
     else:
         return {}, 204 
-@app.route('/<user>/list',methods=['GET', 'POST'])
+@app.route('/list/<user>',methods=['GET', 'POST'])
 def create_list(user):
-    return None
-@app.route('/<user>/list/<listNum>',methods=['POST', 'GET', 'DELETE'])
+    #get = get the lists for the user
+    #post = add a new empty list to user 
+    if request.method == 'POST':
+        listos = User().find_all_lists(user)
+        if len(listos) == 0:
+            newList = User({"listId": 0})
+            newList.saveList()
+            return jsonify(newList), 200
+        else:
+            print(listos)
+
+    return {}, 204
+@app.route('/list/<user>/<listNum>',methods=['POST', 'GET', 'DELETE'])
     #adding , getting, and deleting lists
+    #get = get the list for the user
+    #post = update list
+    #delete = delete this list
 def get_list(user, listNum):
     return None
-@app.route('/<user>/list/<listNum>/<itemId>',methods=['GET', 'POST', 'DELETE'])
+@app.route('/list/<user>/<listNum>/<itemId>',methods=['GET', 'POST', 'DELETE'])
     #do we want an update?
+    #get = get the item for the user
+    #post = update item
+    #delete = delete this item
 def get_item(user, listNum):
     return None
 

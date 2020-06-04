@@ -7,6 +7,7 @@ import TextField from "material-ui/TextField";
 //import DropDownMenu from 'material-ui/DropDownMenu';
 //import MenuItem from 'material-ui/MenuItem';
 import axios from "axios";
+import "./DataStore.js";
 
 class Login extends Component {
   constructor(props) {
@@ -97,6 +98,9 @@ class Login extends Component {
         if (response.status === 200) {
           console.log("Login successful");
           //here we retrieve the _id from response to save
+          window.user_id = response.data[0]._id;
+          console.log(response.data[0]._id);
+          console.log(window.user_id);
           window.user_id = response.data._id;
           self.setState({ loginsucc: true });
         } else if (response.status === 204) {
