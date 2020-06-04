@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import TodoList from "./TodoList";
+import axios from "axios";
 import "./TodoList.css";
+import "./DataStore.js";
 
+//fix globals
 class List extends Component {
   constructor(props) {
     super(props);
@@ -12,16 +15,18 @@ class List extends Component {
       numLists: 0,
       idCount: 1,
       user: "",
+      //need to update user from login
     };
 
     this.handleClickNew = this.handleClickNew.bind(this);
     this.handleClickDel = this.handleClickDel.bind(this);
   }
-
+  //need to create functions to call backend make post/delete calls
   handleClickNew() {
     this.setState({
       rend: true,
     });
+    this.makePostCall(this.state.idCount);
     this.setState((prevState) => ({
       numLists: prevState.numLists + 1,
     }));
@@ -33,9 +38,30 @@ class List extends Component {
     }));
     console.log(this.state.numLists);
   }
+  makePostCall(listId) {
+    //html is now ... this.state.user + list + this.props.id
+    //for list
+    var html = "http://localhost:5000/list/" + window.user_id + "/";
+    console.log(window.user_id);
+    return axios
+      .post(html, listId)
+      .then(function (response) {
+        console.log(response);
+        console.log(this.state.user);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+  }
 
+  //never used delete button is on TodoList for lists
   handleClickDel() {
     console.log("clicked");
+    console.log("here");
+    //need a way to get the listId that was clicked on
+    this.makeDeleteCall();
     this.setState((prevState) => ({
       numLists: prevState.numLists - 1,
     }));
@@ -49,6 +75,20 @@ class List extends Component {
     }
     this.forceUpdate();
     console.log(this.state.lists);
+  }
+  makeDeleteCall(key) {
+    //for item
+    var html = "http://localhost:5000/list/" + this.state.user + "/";
+    return axios
+      .delete(html.concat(key))
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
   }
 
   /*componentDidMount() {
