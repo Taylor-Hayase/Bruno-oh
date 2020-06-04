@@ -5,7 +5,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import DataStore from "./DataStore.js";
+import "./DataStore.js";
 
 class Register extends Component {
   constructor(props) {
