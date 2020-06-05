@@ -255,10 +255,12 @@ class TodoList extends Component {
                 </div>
                 <form onSubmit={this.addItem}>
                   <input
+                    type="text"
                     ref={(a) => (this._inputElement = a)}
                     placeholder="enter task"
                   ></input>
                   <input
+                    type="text"
                     ref={(a) => (this._inputTime = a)}
                     placeholder="enter due date"
                   ></input>
