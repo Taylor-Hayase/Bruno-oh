@@ -35,14 +35,18 @@ UI Prototype
 Development Environment Set-Up
 
       1) pull from github
-      2) pip install 
-      3) pip install pymongo
-      4) pip install flask
-      5) pip install flask-cors
+      Frontend set-up and run:
+      1) pip install 
+      2) npm start
+      Backend set-up and run:
+      1) pip install Flask
+      2) pip install pymongo
+      3) pip install flask-cors
+      4) python3 -m venv venv
+      5) export FLASK_APP=sample_backend.py
+      6) export FLASK_ENV=development
+      7) flask run
       
-      
-
-
 CI Server
 
       https://travis-ci.com/github/Taylor-Hayase/JustDOIT
