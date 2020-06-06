@@ -34,6 +34,14 @@ UI Prototype
       
 Development Environment Set-Up
 
+      1) pull from github
+      2) pip install 
+      3) pip install pymongo
+      4) pip install flask
+      5) pip install flask-cors
+      
+      
+
 
 CI Server
 
