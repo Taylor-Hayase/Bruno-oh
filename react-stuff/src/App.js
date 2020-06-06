@@ -7,6 +7,7 @@ import Error from "./components/Error";
 import Navigation from "./components/Navigation";
 import List from "./components/List";
 import Loginscreen from "./components/Loginscreen";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
   render() {
