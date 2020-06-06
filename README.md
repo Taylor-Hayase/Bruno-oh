@@ -33,4 +33,9 @@ UI Prototype
       last updated 5/5/20: https://app.moqups.com/swzjThsju6/view/page/ab79e7c4b
       
 Development Environment Set-Up
+
+
+CI Server
+
+      https://travis-ci.com/github/Taylor-Hayase/JustDOIT
       
