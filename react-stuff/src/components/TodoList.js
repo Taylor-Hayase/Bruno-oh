@@ -52,12 +52,7 @@ class TodoList extends Component {
   makePatchCall(items) {
     //html is ... this.state.user + list + this.props.id
     //this is to update item in list
-    var html =
-      "http://localhost:5000/list/" +
-      this.state.user +
-      "/" +
-      this.props.id +
-      "/";
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
     return axios
       .patch(html, items)
       .then(function (response) {
@@ -98,12 +93,7 @@ class TodoList extends Component {
   makePostCall(item) {
     //html is now ... this.state.user + list + this.props.id
     //for item
-    var html =
-      "http://localhost:5000/list/" +
-      this.state.user +
-      "/" +
-      this.props.id +
-      "/";
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
     return axios
       .post(html, item)
       .then(function (response) {
@@ -199,12 +189,7 @@ class TodoList extends Component {
 
   makeDeleteCall(key) {
     //for item
-    var html =
-      "http://localhost:5000/list/" +
-      this.state.user +
-      "/" +
-      this.props.id +
-      "/";
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
     return axios
       .delete(html.concat(key))
       .then(function (response) {
@@ -224,11 +209,12 @@ class TodoList extends Component {
     } else {
       console.log("A guest user");
     }
-    var html = "http://localhost:5000/list/" + window.user_id + "/";
+    var html = "http://localhost:5000/list/";
     axios
       .get(html)
       .then((res) => {
-        const items = res.data.users_list;
+        console.log(res.data);
+        const items = res.data;
         this.setState({ items: items });
         if (this.items.length !== 0) {
           this.setState({ rend: true });
