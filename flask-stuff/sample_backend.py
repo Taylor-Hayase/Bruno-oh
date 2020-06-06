@@ -25,6 +25,7 @@ listCounter = 0
 users = {
    'users_list':
    [], 
+    'current_user':""
 }
 
 
@@ -113,15 +114,62 @@ def create_list():
     #post = update list
     #delete = delete this list
 def get_list(user, listNum):
-    return None
+    if request.method == 'GET':
+        listos = User().find_list(user, listNum)
+        if len(listos) == 0:
+            return {}, 204
+        else:
+            return jsonify(listos[0]), 200
+    elif request.method == 'POST':
+        listos = User().find_all_lists(user)
+        if listNum in listos:
+            return {}, 204
+        else:
+            newList = User().add_list(user, listNum)
+            return jsonify(newList), 200
+    elif request.method == 'DELETE':
+        listos = User().find_all_lists(user)
+        if listNum in listos:
+            remainingLists = User().delete_list(user, listNum)
+            return remainingLists, 200
+        else:
+            return listos, 204
 @app.route('/list/<user>/<listNum>/<itemId>',methods=['GET', 'POST', 'DELETE'])
-    #do we want an update?
-    #get = get the item for the user
-    #post = update item
-    #delete = delete this item
 def get_item(user, listNum):
-    return None
-
+    if request.method == 'GET':
+        listos = User().find_list(user, listNum)
+        if len(listos) == 0:
+            return {}, 204
+        else:
+            itemos = User().find_item(user, listNum, itemId)
+            if len(itemos) == 0:
+                return {}, 204
+            else:
+                return jsonify(itemos[0]), 200
+    elif request.method == 'DELETE':
+        listos = User().find_all_lists(user)
+        if listNum in listos:
+            itemos = User().find_item(user, listNum, itemId)
+            if len(itemos) == 0:
+                newList = delete_item(user, listNum, itemId)
+                newList.saveList()
+                return jsonify(newList), 200
+            else:
+                return {}, 204
+        else:
+            return {}, 204
+    elif request.method == 'POST':
+        listos = User().find_all_lists(user)
+        if listNum in listos:
+            itemos = User().find_item(user, listNum, itemId)
+            if len(itemos) == 0:
+                return {}, 204
+            else:
+                newList = User().add_item(user, listo, item)
+                newList.saveList()
+                return jsonify(newList), 200
+        else:
+            return {}, 204
 
 
 @app.route('/list/<listId>', methods=['GET', 'POST', 'PATCH'])

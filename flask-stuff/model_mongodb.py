@@ -67,7 +67,10 @@ class User(Model):
     def find_all_lists(self, name):
         users = list(self.lists.find({"username": name}))
         return users
-
+    def find_list(self, name, listNum):
+        listo = []
+        listo.append((list(self.lists.find({"username":name})))[listNum])
+        return listo
     def delete_user(self, user):
         return None
     def delete_list(self, user, listo):
