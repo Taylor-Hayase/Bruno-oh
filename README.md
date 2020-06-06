@@ -27,3 +27,8 @@ Pycodestyle - Python
 Prettier - Javascript
 
       follow instructions from following link: https://create-react-app.dev/docs/setting-up-your-editor
+      
+UI Prototype
+
+      last updated 5/5/20: https://app.moqups.com/swzjThsju6/view/page/ab79e7c4b
+      
