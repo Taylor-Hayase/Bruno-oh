@@ -41,7 +41,7 @@ class List extends Component {
   makePostCall(listId) {
     //html is now ... this.state.user + list + this.props.id
     //for list
-    var html = "http://localhost:5000/list/" + window.user_id + "/";
+    var html = "http://localhost:5000/list/";
     console.log(window.user_id);
     return axios
       .post(html, listId)

@@ -19,6 +19,8 @@ flask run;
 def hello_world():
     return 'Hello, World!'
 
+user_id = ""
+listCounter = 0
 
 users = {
    'users_list':
@@ -41,6 +43,10 @@ def sign_in():
             return {}, 204
         else:
             print(found)
+            global user_id
+            user_id = found[0]['_id']
+            global listCounter 
+            listCounter = 0
             #//found.append({'code', 200})
             return jsonify(found), 200
     elif search_username:
@@ -64,8 +70,12 @@ def sign_up():
             userToAdd = truth
             #userToAdd['id'] = generate_id()
             #users['users_list'].append(userToAdd)
+            global user_id
+            user_id = userToAdd['id']
             newUser = User(userToAdd)
             newUser.save()
+            global listCounter 
+            listCounter = 0
             resp = jsonify(newUser), 200
             return resp
         else:
@@ -74,19 +84,28 @@ def sign_up():
         return  {}, 204
     else:
         return {}, 204 
-@app.route('/list/<user>',methods=['GET', 'POST'])
-def create_list(user):
+@app.route('/list/',methods=['GET', 'POST'])
+def create_list():
+    user_i = request.get_json()
+    print(user_i)
     #get = get the lists for the user
     #post = add a new empty list to user 
+    global user_id
     if request.method == 'POST':
-        listos = User().find_all_lists(user)
+        listos = User().find_all_lists(user_id)
+        print(user_id)
         if len(listos) == 0:
-            newList = User({"listId": 0})
+            global listCounter
+            newList = User({"listId": listCounter})
+            listCounter += 1
             newList.saveList()
             return jsonify(newList), 200
         else:
             print(listos)
-
+    elif request.method == "GET":
+        listos = User().find_all_lists(user_id)
+        # need to actually get all the items here
+        return jsonify(listos), 200
     return {}, 204
 @app.route('/list/<user>/<listNum>',methods=['POST', 'GET', 'DELETE'])
     #adding , getting, and deleting lists
