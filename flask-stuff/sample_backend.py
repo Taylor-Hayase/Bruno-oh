@@ -129,9 +129,11 @@ def del_list(listId):
     global user_obj
     if request.method == 'DELETE':
         return {}, 204
+    #get this
     elif request.method == "GET":
-        itemos = (User().find_all_items(user_id, int(listId)))
-        #print(itemos)
+        print(listId, type(listId))
+        itemos = (User().find_all_items(user_id, listId))
+        print(itemos)
         return jsonify(itemos), 200
     return {}, 204
 @app.route('/list/<listNum>/',methods=['PATCH'])
@@ -177,7 +179,7 @@ def get_item(listNum, itemId):
             #print(itemos)
             if len(itemos) == 1:
                 print("here2")
-                newList = User().delete_item(user_id, listNum, itemId)
+                newList = User().delete_item(user_id, listNum, int(itemId))
                 return {}, 200
             else:
                 return {}, 204
