@@ -93,7 +93,9 @@ class TodoList extends Component {
   makePostCall(item) {
     //html is now ... this.state.user + list + this.props.id
     //for item
-    var html = "http://localhost:5000/list/" + this.props.id + "/";
+    console.log(item);
+    var html =
+      "http://localhost:5000/list/" + this.props.id + "/" + item.key + "/";
     return axios
       .post(html, item)
       .then(function (response) {

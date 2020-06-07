@@ -86,8 +86,16 @@ class User(Model):
         return users
     def find_list(self, name, listNum):
         listo = []
-        listo.append((list(self.lists.find({"username":name})))[listNum])
+        print(list(self.lists.find({"userID":name})))
+        for li in (list(self.lists.find({"userID":name}))):
+            listo.append(li["listId"])
         return listo
+    def find_Item(self, user_id, listNum, itemId):
+        items = list(self.items.find({"userID":user_id, "listId": listNum, "key":itemId}))
+        print(items)
+        for item in items:
+            item["_id"] = str(item["_id"])
+        return items
     def delete_user(self, user):
         return None
     def delete_list(self, user, listo):

@@ -21,7 +21,7 @@ def hello_world():
 
 user_id = ""
 user_obj = ""
-listCounter = 0
+listCounter = 1
 
 users = {
    'users_list':
@@ -47,8 +47,9 @@ def sign_in():
             print(found)
             global user_id
             user_id = found[0]['_id']
+            # will need to fix to account for number of already created lists
             global listCounter 
-            listCounter = 0
+            listCounter = 1
             global user_obj 
             user_obj = found
             #//found.append({'code', 200})
@@ -78,8 +79,9 @@ def sign_up():
             user_id = userToAdd['id']
             newUser = User(userToAdd)
             newUser.save()
+            # will need to fix to account for number of already created lists
             global listCounter 
-            listCounter = 0
+            listCounter = 1
             global user_obj 
             user_obj = newUser
             resp = jsonify(newUser), 200
@@ -101,15 +103,14 @@ def create_list():
     if request.method == 'POST':
         listos = User().find_all_lists(user_id)
         print(user_id)
-        if len(listos) == 0:
-            global listCounter
-            newlist = User({"listId": listCounter, "userID": user_id})
-            listCounter += 1
-            newlist.saveList()
-            print(newlist)
-            return jsonify({"listId": listCounter, "userID": user_id}), 200
-        else:
-            print(listos)
+        # could be elaborate here to deal with listcounter
+        global listCounter
+        print(listCounter)
+        newlist = User({"listId": listCounter, "userID": user_id})
+        listCounter += 1
+        newlist.saveList()
+        print(newlist)
+        return jsonify({"listId": listCounter, "userID": user_id}), 200
     elif request.method == "GET":
         listos = User().find_all_lists(user_id)
         print(listos)
@@ -119,53 +120,26 @@ def create_list():
             itemos.extend(User().find_all_items(user_id, li["listId"]))
         return jsonify(itemos), 200
     return {}, 204
-'''
-@app.route('/list/<user>/<listNum>',methods=['POST', 'GET', 'DELETE'])
-    #adding , getting, and deleting lists
-    #get = get the list for the user
-    #post = update list
-    #delete = delete this list
-def get_list(user, listNum):
+@app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE'])
+def get_item(listNum, itemId):
+    print(listNum)
     if request.method == 'GET':
-        listos = User().find_list(user, listNum)
+        listos = User().find_items(user_id, listNum, itemId)
         if len(listos) == 0:
             return {}, 204
         else:
-            return jsonify(listos[0]), 200
-    elif request.method == 'POST':
-        listos = User().find_all_lists(user)
-        if listNum in listos:
-            return {}, 204
-        else:
-            newList = User().add_list(user, listNum)
-            return jsonify(newList), 200
-    elif request.method == 'DELETE':
-        listos = User().find_all_lists(user)
-        if listNum in listos:
-            remainingLists = User().delete_list(user, listNum)
-            return remainingLists, 200
-        else:
-            return listos, 204
-'''
-@app.route('/list/<listNum>/<itemId>',methods=['GET', 'POST', 'DELETE'])
-def get_item(user, listNum, itemId):
-    print(listNum, itemId)
-    if request.method == 'GET':
-        listos = User().find_items(user, listNum)
-        if len(listos) == 0:
-            return {}, 204
-        else:
-            itemos = User().find_item(user, listNum, itemId)
+            itemos = User().find_item(useri_id, listNum, itemId)
             if len(itemos) == 0:
                 return {}, 204
             else:
                 return jsonify(itemos[0]), 200
     elif request.method == 'DELETE':
-        listos = User().find_all_lists(user)
+        #not correct
+        listos = User().find_all_lists(user_id)
         if listNum in listos:
-            itemos = User().find_item(user, listNum, itemId)
+            itemos = User().find_item(user_id, listNum, itemId)
             if len(itemos) == 0:
-                newList = delete_item(user, listNum, itemId)
+                newList = delete_item(user_id, listNum, itemId)
                 newList.saveList()
                 return jsonify(newList), 200
             else:
@@ -173,65 +147,21 @@ def get_item(user, listNum, itemId):
         else:
             return {}, 204
     elif request.method == 'POST':
-        listos = User().find_all_lists(user)
-        if listNum in listos:
-            itemos = User().find_item(user, listNum, itemId)
+        item = request.get_json()
+        listos = User().find_list(user_id, listNum)
+        print(listos)
+        if int(listNum) in listos:
+            itemos = User().find_Item(user_id, listNum, itemId)
+            print("item", itemos)
             if len(itemos) == 0:
-                return {}, 204
+                print("here")
+                item["user_id"] = user_id
+                item["listId"] = listNum
+                print("item", item)
+                newList = User(item)
+                newList.saveItem()
+                return {}, 200
             else:
-                newList = User().add_item(user, listo, item)
-                newList.saveList()
-                return jsonify(newList), 200
+                return {}, 204
         else:
             return {}, 204
-
-'''
-@app.route('/list/<listId>', methods=['GET', 'POST', 'PATCH'])
-def get_users(listId):
-   if request.method == 'GET':
-    return users;
-   elif request.method == 'POST':
-   	userToAdd = request.get_json()
-   	users['users_list'].append(userToAdd)
-   	resp = jsonify(userToAdd)
-   	if userToAdd in users['users_list']:
-   		resp.status_code = 201
-   	else:
-   		resp.status_code = 400
-   	return resp
-   elif request.method == 'PATCH':
-    newListOrder = request.get_json()
-    users['users_list'] = newListOrder
-    resp = jsonify(newListOrder)
-    if users['users_list'] == newListOrder:
-      resp.status_code = 200
-    else:
-      resp.status_code = 400
-    return resp
-'''
-'''
-@app.route('/list/1/<key>', methods=['GET', 'DELETE'])
-def get_user(key):
-   if request.method == 'GET':
-      for user in users['users_list']:
-        if user['key'] == key:
-           return user
-      return ({})
-   elif request.method == 'DELETE':
-   	for user in users['users_list']:
-   		if user['key'] == (int(key)):
-   			users['users_list'].remove(user)
-   			resp = jsonify(success=True)
-   			resp.status_code = 200
-   			return resp
-   	resp = jsonify(success=False)
-   	resp.status_code = 400
-   	return resp	
-   return users
-def find_user_by_username(username):
-    subdict = {'users_list' : []}
-    for user in users['users_list']:
-        if user['name'] == name:
-            subdict['users_list'].append(user)
-    return subdict  
-'''
