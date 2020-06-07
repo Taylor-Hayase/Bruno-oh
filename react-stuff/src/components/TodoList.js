@@ -53,6 +53,8 @@ class TodoList extends Component {
     //html is ... this.state.user + list + this.props.id
     //this is to update item in list
     var html = "http://localhost:5000/list/" + this.props.id + "/";
+    console.log("here bitch");
+    console.log(items);
     return axios
       .patch(html, items)
       .then(function (response) {
@@ -96,8 +98,8 @@ class TodoList extends Component {
     console.log(item);
     var html =
       "http://localhost:5000/list/" + this.props.id + "/" + item.key + "/";
-    return axios
-      .post(html, item)
+    return axios.post(html, item);
+    this.state
       .then(function (response) {
         console.log(response);
         console.log(this.state.user);
@@ -134,17 +136,21 @@ class TodoList extends Component {
       if (this.state.items[i].key === key) {
         if (this.state.items[i].checked === true) {
           let items = [...this.state.items];
-          let item = { ...items[i] };
-          item.checked = false;
-          items[i] = item;
+          items[i].checked = false;
           this.setState({ items });
         } else {
           let items = [...this.state.items];
-          let item = { ...items[i] };
-          item.checked = true;
-          items[i] = item;
+          items[i].checked = true;
           this.setState({ items });
         }
+        //makePatchCall(this.state.items)
+        this.makePatchCall(this.state.items).then((callResult) => {
+          this.setState((prevState) => {
+            return {
+              items: this.state.items,
+            };
+          });
+        });
       }
     }
     this.forceUpdateHandler();
