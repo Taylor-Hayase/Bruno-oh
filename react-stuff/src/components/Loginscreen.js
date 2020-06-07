@@ -56,12 +56,15 @@ class Loginscreen extends Component {
   }
 
   handleClick(event) {
-    console.log("event");
     var loginmessage;
     if (this.state.isLogin) {
       let loginscreen = [];
       loginscreen.push(
-        <Register parentContext={this} appContext={this.props.appContext} />
+        <Register
+          key={this.state.username}
+          parentContext={this}
+          appContext={this.props.appContext}
+        />
       );
       loginmessage = "Already registered. Go to Login";
       let loginButtons = [];

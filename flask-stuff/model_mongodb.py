@@ -79,23 +79,24 @@ class User(Model):
         print(users)
         return users
     def find_all_items(self, name, listId):
-        users = list(self.items.find({"userID": name, "listId":listId}))
+        users = list(self.items.find({"userID": name, "idCount":listId}))
         for user in users:
             user["_id"] = str(user["_id"])
         print(users)
         return users
     def find_list(self, name, listNum):
         listo = []
-        print(list(self.lists.find({"userID":name})))
+        #print(list(self.lists.find({"userID":name})))
         for li in (list(self.lists.find({"userID":name}))):
-            listo.append(li["listId"])
+            listo.append(li["idCount"])
         return listo
     def find_Item(self, user_id, listNum, itemId):
-        items = list(self.items.find({"userID":user_id, "listId": listNum, "key":itemId}))
-        print(items)
-        for item in items:
-            item["_id"] = str(item["_id"])
-        return items
+        #print(list(self.items.find()))
+        Items = list(self.items.find({"key":itemId}))
+        #print(Items)
+        for Item in Items:
+            Item["_id"] = str(Item["_id"])
+        return Items
     def delete_user(self, user):
         return None
     def delete_list(self, name, listId):
@@ -103,5 +104,5 @@ class User(Model):
         for li in items:
             self.items.delete_one({"userID":name,"idCount":listId, "key":li["_id"]})
         self.lists.delete_one({"userID": name, "idCount":listId}) 
-    def delete_item(self, user, listo, item):
-        return None
+    def delete_item(self, userId, listId, itemId):
+        return self.items.delete_one({"userID":userId, "idCount":listId, "key":itemId})

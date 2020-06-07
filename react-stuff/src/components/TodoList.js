@@ -125,6 +125,21 @@ class TodoList extends Component {
       this.deleteItem(key);
     });
   }
+  makeDeleteCall(key) {
+    //for item
+    console.log(key);
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
+    return axios
+      .delete(html.concat(key + "/"))
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+  }
 
   forceUpdateHandler() {
     this.forceUpdate();
@@ -195,21 +210,6 @@ class TodoList extends Component {
     }
   }
 
-  makeDeleteCall(key) {
-    //for item
-    var html = "http://localhost:5000/list/" + this.props.id + "/";
-    return axios
-      .delete(html.concat(key))
-      .then(function (response) {
-        console.log(response);
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
-        return false;
-      });
-  }
-
   componentDidMount() {
     this.setState({ user: window.user_id });
     if (this.state.user !== "") {
@@ -217,7 +217,7 @@ class TodoList extends Component {
     } else {
       console.log("A guest user");
     }
-    var html = "http://localhost:5000/list/";
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
     axios
       .get(html)
       .then((res) => {

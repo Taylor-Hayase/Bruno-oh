@@ -20,13 +20,21 @@ class List extends Component {
 
     this.handleClickNew = this.handleClickNew.bind(this);
     this.handleClickDel = this.handleClickDel.bind(this);
+    this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+  }
+  forceUpdateHandler() {
+    this.forceUpdate();
   }
   //need to create functions to call backend make post/delete calls
   handleClickNew() {
     this.setState({
       rend: true,
     });
-    this.makePostCall(this.state.idCount);
+    var newList = {
+      idCount: this.state.idCount,
+      lName: "List " + this.state.idCount,
+    };
+    this.makePostCall(newList);
     this.setState((prevState) => ({
       numLists: prevState.numLists + 1,
     }));
@@ -36,18 +44,18 @@ class List extends Component {
     this.setState((prevState) => ({
       idCount: prevState.idCount + 1,
     }));
+    this.forceUpdateHandler();
     console.log(this.state.numLists);
   }
-  makePostCall(listId) {
+  makePostCall(newList) {
     //html is now ... this.state.user + list + this.props.id
     //for list
     var html = "http://localhost:5000/list/";
-    console.log(window.user_id);
+    console.log(newList);
     return axios
-      .post(html, listId)
+      .post(html, newList)
       .then(function (response) {
         console.log(response);
-        console.log(this.state.user);
         return response;
       })
       .catch(function (error) {
@@ -78,7 +86,7 @@ class List extends Component {
   }
   makeDeleteCall(key) {
     //for item
-    var html = "http://localhost:5000/list/" + this.state.user + "/";
+    var html = "http://localhost:5000/list/";
     return axios
       .delete(html.concat(key))
       .then(function (response) {
@@ -91,7 +99,7 @@ class List extends Component {
       });
   }
 
-  /*componentDidMount() {
+  componentDidMount() {
     this.setState({ user: window.user_id });
     if (this.state.user !== "") {
       console.log("A logged in user");
@@ -99,15 +107,19 @@ class List extends Component {
       console.log("A guest user");
     }
     //once get multiple lists on backend, will retrieve any lists connected to user
-    var html = "http://localhost:5000/list/" + this.props.id;
+    var html = "http://localhost:5000/list/";
     axios
       .get(html)
       .then((res) => {
-        const listsFromData = res.data.users_list;
-        this.setState({ numLists : listsFromData.length });
+        const listsFromData = res.data;
+        console.log(listsFromData);
+        this.setState({ numLists: listsFromData.numLists });
+        this.setState({ idCount: listsFromData.idCount });
+        this.setState({ lists: listsFromData.lists });
         if (this.state.numLists > 0) {
           //copy over lists to lists state
-          this.setStare({ lists: listsFromData });
+          this.setState({ lists: listsFromData.lists });
+          this.setState({ rend: true });
         } else {
           //nothing
         }
@@ -116,7 +128,7 @@ class List extends Component {
         //Not handling the error. Just logging into the console.
         console.log(error);
       });
-  }*/
+  }
 
   render() {
     return (

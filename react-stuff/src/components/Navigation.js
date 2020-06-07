@@ -27,15 +27,6 @@ const Navigation = () => {
       </Navbar.Collapse>
     </Navbar>
   );
-  /*  return (
-    <div>
-      <NavLink to="/"> Login </NavLink>
-      <NavLink to="/home"> Home </NavLink>
-      <NavLink to="/about"> About </NavLink>
-      <NavLink to="/contact"> Contact </NavLink>
-      <NavLink to="/list"> Lists </NavLink>
-    </div>
-  );*/
 };
 
 export default Navigation;
