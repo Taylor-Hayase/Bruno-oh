@@ -128,7 +128,8 @@ def del_list(listId):
     global user_id
     global user_obj
     if request.method == 'DELETE':
-        return {}, 204
+        User().delete_list(user_id, listId)
+        return {}, 200
     #get this
     elif request.method == "GET":
         print(listId, type(listId))
