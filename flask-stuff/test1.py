@@ -11,6 +11,7 @@ class FlaskTests(unittest.TestCase):
 		self.assertEqual(response.data, b'Hello, World!');
 
 	def test_sign_in(self):
+		app.testing = True
 		tester = app.test_client(self)
 		response = tester.post('/', data=json.dumps(dict(username='AlexT',
 														password='1234')),

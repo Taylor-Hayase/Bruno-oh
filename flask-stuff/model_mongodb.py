@@ -37,6 +37,12 @@ class Model(dict):
                     .find_one({"_id": ObjectId(self._id)}))
             self._id = str(self._id)
 
+    def reloadItem(self):
+        if self._id:
+            self.update(self.items\
+                    .find_one({"_id": ObjectId(self._id)}))
+            self._id = str(self._id)
+
     def remove(self):
         if self._id:
             self.collection.remove({"_id": ObjectId(self._id)})
