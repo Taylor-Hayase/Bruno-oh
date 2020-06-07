@@ -91,14 +91,15 @@ class User(Model):
             listo.append(li["listId"])
         return listo
     def find_Item(self, user_id, listNum, itemId):
-        items = list(self.items.find({"userID":user_id, "listId": listNum, "key":itemId}))
-        print(items)
-        for item in items:
-            item["_id"] = str(item["_id"])
-        return items
+        print(list(self.items.find()))
+        Items = list(self.items.find({"key":itemId}))
+        print(Items)
+        for Item in Items:
+            Item["_id"] = str(Item["_id"])
+        return Items
     def delete_user(self, user):
         return None
     def delete_list(self, user, listo):
         return None
-    def delete_item(self, user, listo, item):
-        return None
+    def delete_item(self, userId, listId, itemId):
+        return self.items.delete_one({"userID":userId, "listId":listId, "key":itemId})

@@ -120,47 +120,52 @@ def create_list():
             itemos.extend(User().find_all_items(user_id, li["listId"]))
         return jsonify(itemos), 200
     return {}, 204
-@app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE'])
+@app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE', 'PATCH'])
 def get_item(listNum, itemId):
     print(listNum)
+    global user_id
     if request.method == 'GET':
-        listos = User().find_items(user_id, listNum, itemId)
-        if len(listos) == 0:
+        listos = User().find_list(user_id, listNum)
+        if listNum not in listos:
             return {}, 204
         else:
             itemos = User().find_item(useri_id, listNum, itemId)
-            if len(itemos) == 0:
+            if len(itemos) != 0:
                 return {}, 204
             else:
                 return jsonify(itemos[0]), 200
     elif request.method == 'DELETE':
         #not correct
-        listos = User().find_all_lists(user_id)
-        if listNum in listos:
-            itemos = User().find_item(user_id, listNum, itemId)
-            if len(itemos) == 0:
-                newList = delete_item(user_id, listNum, itemId)
-                newList.saveList()
-                return jsonify(newList), 200
+        listos = User().find_list(user_id, listNum)
+        if int(listNum) in listos:
+            print("here")
+            itemos = User().find_Item(user_id, listNum, int(itemId))
+            print(itemos)
+            if len(itemos) == 1:
+                print("here2")
+                newList = User().delete_item(user_id, listNum, itemId)
+                return {}, 200
             else:
                 return {}, 204
         else:
             return {}, 204
+    elif request.method == "PATCH":
+        return {}, 204
     elif request.method == 'POST':
         item = request.get_json()
         listos = User().find_list(user_id, listNum)
         print(listos)
         if int(listNum) in listos:
             itemos = User().find_Item(user_id, listNum, itemId)
-            print("item", itemos)
+            #print("item", itemos)
             if len(itemos) == 0:
-                print("here")
-                item["user_id"] = user_id
+                #print("here")
+                item["userID"] = user_id
                 item["listId"] = listNum
-                print("item", item)
+                #print("item", item)
                 newList = User(item)
                 newList.saveItem()
-                return {}, 200
+                return jsonify(newList["key"]), 200
             else:
                 return {}, 204
         else:

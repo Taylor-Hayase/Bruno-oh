@@ -52,7 +52,8 @@ class TodoList extends Component {
   makePatchCall(items) {
     //html is ... this.state.user + list + this.props.id
     //this is to update item in list
-    var html = "http://localhost:5000/list/" + this.props.id + "/";
+    var html =
+      "http://localhost:5000/list/" + this.props.id + "/" + items.key + "/";
     return axios
       .patch(html, items)
       .then(function (response) {
@@ -123,6 +124,21 @@ class TodoList extends Component {
       this.deleteItem(key);
     });
   }
+  makeDeleteCall(key) {
+    //for item
+    console.log(key);
+    var html = "http://localhost:5000/list/" + this.props.id + "/";
+    return axios
+      .delete(html.concat(key + "/"))
+      .then(function (response) {
+        console.log(response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+        return false;
+      });
+  }
 
   forceUpdateHandler() {
     this.forceUpdate();
@@ -187,21 +203,6 @@ class TodoList extends Component {
         </div>
       );
     }
-  }
-
-  makeDeleteCall(key) {
-    //for item
-    var html = "http://localhost:5000/list/" + this.props.id + "/";
-    return axios
-      .delete(html.concat(key))
-      .then(function (response) {
-        console.log(response);
-        return response;
-      })
-      .catch(function (error) {
-        console.log(error);
-        return false;
-      });
   }
 
   componentDidMount() {
