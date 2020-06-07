@@ -120,6 +120,26 @@ def create_list():
             itemos.extend(User().find_all_items(user_id, li["listId"]))
         return jsonify(itemos), 200
     return {}, 204
+@app.route('/list/<listNum>/',methods=['PATCH'])
+def update_list(listNum):
+    if request.method == 'PATCH':
+        newItems = request.get_json()
+        listos = User().find_list(user_id, listNum)
+        if int(listNum) in listos:
+            newList = User({"listId": listNum, "userID": user_id})
+            newList.saveList()
+            User().delete_list(user_id, listNum)
+            for i in range(len(newItems)):
+                newItems[i]["user_id"] = user_id
+                newItems[i]["listId"] = listNum
+                newItem = User(newItems[i])
+                newItem.saveItem()
+            #newList = User(newItems)
+            #newList._id = oldList._id
+            #newList.saveList()
+            return {}, 200
+        else:
+            return {}, 204
 @app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE'])
 def get_item(listNum, itemId):
     print(listNum)
@@ -135,8 +155,10 @@ def get_item(listNum, itemId):
                 return jsonify(itemos[0]), 200
     elif request.method == 'DELETE':
         #not correct
+        itemKey = request.get_json()
+        print (itemKey)
         listos = User().find_all_lists(user_id)
-        if listNum in listos:
+        if int(listNum) in listos:
             itemos = User().find_item(user_id, listNum, itemId)
             if len(itemos) == 0:
                 newList = delete_item(user_id, listNum, itemId)
