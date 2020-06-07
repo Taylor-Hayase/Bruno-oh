@@ -98,8 +98,8 @@ class TodoList extends Component {
     console.log(item);
     var html =
       "http://localhost:5000/list/" + this.props.id + "/" + item.key + "/";
-    return axios.post(html, item);
-    this.state
+    return axios
+      .post(html, item)
       .then(function (response) {
         console.log(response);
         console.log(this.state.user);
