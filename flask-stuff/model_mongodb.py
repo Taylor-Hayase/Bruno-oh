@@ -99,7 +99,10 @@ class User(Model):
         return Items
     def delete_user(self, user):
         return None
-    def delete_list(self, user, listo):
-        return None
+    def delete_list(self, name, listId):
+        items = list(self.items.find({"userID": name, "listId":listId}))
+        for li in items:
+            self.items.delete_one({"userID":name,"idCount":listId, "key":li["_id"]})
+        self.lists.delete_one({"userID": name, "idCount":listId}) 
     def delete_item(self, userId, listId, itemId):
         return self.items.delete_one({"userID":userId, "idCount":listId, "key":itemId})
