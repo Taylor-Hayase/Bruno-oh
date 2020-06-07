@@ -212,11 +212,13 @@ class TodoList extends Component {
     } else {
       console.log("A guest user");
     }
+    console.log(this.props.id);
     var html = "http://localhost:5000/list/" + this.props.id + "/";
     axios
       .get(html)
       .then((res) => {
-        console.log(res.data);
+        console.log("you");
+        console.log(res);
         const items = res.data;
         this.setState({ items: items });
         if (this.items.length !== 0) {
