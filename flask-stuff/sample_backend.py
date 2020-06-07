@@ -117,45 +117,46 @@ def create_list():
         maxo = 0
         names = []
         for li in listos:
+            print(li)
             names.append(li["lName"])
             maxo = max(maxo, li["idCount"])
         return jsonify({"lists": names, "numLists": len(listos), "idCount": maxo+1}), 200
     return {}, 204
-@app.route('/list/<listId>/',methods=['GET', 'DELETE'])
+@app.route('/list/<listId>/',methods=['GET', 'DELETE', 'PATCH'])
 def del_list(listId):
     #get = get the lists for the user
     #post = add a new empty list to user 
     global user_id
     global user_obj
     if request.method == 'DELETE':
-        return {}, 204
+        user().delete_list(user_id, listId)
+        return {}, 200
     #get this
     elif request.method == "GET":
         print(listId, type(listId))
         itemos = (User().find_all_items(user_id, listId))
         print(itemos)
         return jsonify(itemos), 200
-    return {}, 204
-@app.route('/list/<listNum>/',methods=['PATCH'])
-def update_list(listNum):
-    if request.method == 'PATCH':
+    elif request.method == 'PATCH':
         newItems = request.get_json()
-        listos = User().find_list(user_id, listNum)
-        if int(listNum) in listos:
-            newList = User({"listId": listNum, "userID": user_id})
-            newList.saveList()
-            User().delete_list(user_id, listNum)
+        listos = User().find_list(user_id, listId)
+        if int(listId) in listos:
+            #newList = User({"idCount": str(listId), "lName": "List " + str(listId), "userID": user_id})
+            #newList.saveList()
+            #User().delete_list(user_id, listNum)
             for i in range(len(newItems)):
                 newItems[i]["user_id"] = user_id
-                newItems[i]["listId"] = listNum
+                newItems[i]["idCount"] = listId
                 newItem = User(newItems[i])
-                newItem.saveItem()
+                #newItem.reloadItem()
             #newList = User(newItems)
             #newList._id = oldList._id
             #newList.saveList()
             return {}, 200
         else:
             return {}, 204
+    return {}, 204
+
 @app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE', 'PATCH'])
 def get_item(listNum, itemId):
     print(listNum)
