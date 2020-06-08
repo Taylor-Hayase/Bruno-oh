@@ -6,6 +6,7 @@ php:
 jobs:
   include:
     - language: python
+      services: mongodb
       python: 3.8
       install:
       - pip install -r requirements.txt
