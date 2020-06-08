@@ -130,9 +130,7 @@ def get_item(listNum, itemId):
     global user_id
     if request.method == 'GET':
         listos = User().find_list(user_id, listNum)
-        if listNum not in listos:
-            return {}, 204
-        else:
+        if listNum in listos:
             itemos = User().find_item(user_id, listNum, itemId)
             if len(itemos) != 0:
                 return {}, 204
@@ -145,8 +143,6 @@ def get_item(listNum, itemId):
             if len(itemos) == 1:
                 newList = User().delete_item(user_id, listNum, int(itemId))
                 return {}, 200
-        else:
-            return {}, 204
     elif request.method == 'POST':
         item = request.get_json()
         listos = User().find_list(user_id, listNum)
@@ -160,5 +156,3 @@ def get_item(listNum, itemId):
                 return jsonify(newList["key"]), 200
             else:
                 return {}, 204
-        else:
-            return {}, 204

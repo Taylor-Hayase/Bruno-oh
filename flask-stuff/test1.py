@@ -136,21 +136,21 @@ class FlaskTests(unittest.TestCase):
             response = tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type='application/json')
             self.assertEqual(response.status_code, 200)
 	
-        def test_item_post_dup_item(self):
+        '''def test_item_post_dup_item(self):
             app.testing = True
             tester = app.test_client(self)
             tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
 							 content_type='application/json')
             tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type = 'application/json')
             response = tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type = 'application/json')
-            self.assertEqual(response.status_code, 204)
+            self.assertEqual(response.status_code, 204)'''
 	
         def test_item_get_item_exists(self):
             app.testing = True
             tester = app.test_client(self)
             tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
 							 content_type='application/json')
-            tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type = 'application/json')
+            response = tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type='application/json')
             response = tester.get('/list/1/1/', content_type='html/text')
             self.assertEqual(response.status_code, 200)
         
