@@ -101,9 +101,11 @@ class User(Model):
     def delete_user(self, user):
         return None
     def delete_list(self, name, listId):
-        items = list(self.items.find({"userID": name, "listId":listId}))
+        items = list(self.items.find({"userID": name, "idCount":listId}))
         for li in items:
             self.items.delete_one({"userID":name,"idCount":listId, "key":li["_id"]})
-        self.lists.delete_one({"userID": name, "idCount":listId}) 
+        print(name, listId)
+        print("HERE", list(self.lists.find({"userID": name, "idCount": int(listId)})))
+        self.lists.delete_one({"userID": name, "idCount":int(listId)}) 
     def delete_item(self, userId, listId, itemId):
         return self.items.delete_one({"userID":userId, "idCount":listId, "key":itemId})

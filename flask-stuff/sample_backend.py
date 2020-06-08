@@ -30,10 +30,6 @@ users = {
 }
 
 
-def make_id():
-    nums = str(random.randint(100, 999))
-    letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
-    return letters + nums
 @app.route('/',methods=['POST'])
 def sign_in():
     truth = request.get_json()
@@ -65,7 +61,7 @@ def sign_up():
     search_username = truth['username']
     search_password = truth['password']
     first_name = truth['first_name']
-    last_name =  truth['last_name']
+    last_name = truth['last_name']
     if search_username and search_password:
         found = User().find_by_name(search_username)
         if (len(found) ==0):
