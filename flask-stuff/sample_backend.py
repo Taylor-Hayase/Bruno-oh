@@ -126,11 +126,9 @@ def del_list(listId):
                 newVals = {"$set" : {"checked" : newItems[i]["checked"]}}
                 User().items.update_one(myquery, newVals)
             return {}, 200
-        else:
-            return {}, 204
     return {}, 204
 
-@app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE', 'PATCH'])
+@app.route('/list/<listNum>/<itemId>/',methods=['GET', 'POST', 'DELETE'])
 def get_item(listNum, itemId):
     global user_id
     if request.method == 'GET':
@@ -151,12 +149,8 @@ def get_item(listNum, itemId):
             if len(itemos) == 1:
                 newList = User().delete_item(user_id, listNum, int(itemId))
                 return {}, 200
-            else:
-                return {}, 204
         else:
             return {}, 204
-    elif request.method == "PATCH":
-        return {}, 204
     elif request.method == 'POST':
         item = request.get_json()
         listos = User().find_list(user_id, listNum)
