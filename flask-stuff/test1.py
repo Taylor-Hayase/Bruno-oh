@@ -6,11 +6,13 @@ from sample_backend import app
 
 class FlaskTests(unittest.TestCase):
 
+	#just testing the root get
 	def test_root(self):
 		tester = app.test_client(self)
 		response = tester.get('/', content_type='html/text')
 		self.assertEqual(response.data, b'Hello, World!');
 
+	#tests for signing in
 	def test_sign_in_not_user(self):
 		app.testing = True
 		tester = app.test_client(self)
@@ -33,8 +35,7 @@ class FlaskTests(unittest.TestCase):
 							content_type='application/json')
 		self.assertEqual(response.status_code, 204)
 
-
-
+	#tests for signing up
 	def test_signup_no_username(self):
 		app.testing = True
 		tester = app.test_client(self)
