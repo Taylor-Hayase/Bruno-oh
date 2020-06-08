@@ -147,12 +147,8 @@ def get_item(listNum, itemId):
         item = request.get_json()
         listos = User().find_list(user_id, listNum)
         if int(listNum) in listos:
-            itemos = User().find_Item(user_id, listNum, itemId)
-            if len(itemos) == 0:
-                item["userID"] = user_id
-                item["idCount"] = listNum
-                newList = User(item)
-                newList.saveItem()
-                return jsonify(newList["key"]), 200
-            else:
-                return {}, 204
+            item["userID"] = user_id
+            item["idCount"] = listNum
+            newList = User(item)
+            newList.saveItem()
+            return jsonify(newList["key"]), 200
