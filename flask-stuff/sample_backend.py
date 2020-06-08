@@ -30,10 +30,6 @@ users = {
 }
 
 
-def make_id():
-    nums = str(random.randint(100, 999))
-    letters = ''.join(random.choice(string.ascii_lowercase) for c in range(3))
-    return letters + nums
 @app.route('/',methods=['POST'])
 def sign_in():
     truth = request.get_json()

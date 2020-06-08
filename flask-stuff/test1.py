@@ -33,6 +33,8 @@ class FlaskTests(unittest.TestCase):
 							content_type='application/json')
 		self.assertEqual(response.status_code, 204)
 
+
+
 	def test_signup_no_username(self):
 		app.testing = True
 		tester = app.test_client(self)
@@ -53,6 +55,16 @@ class FlaskTests(unittest.TestCase):
 							content_type='application/json')
 		self.assertEqual(response.status_code, 204)
 
+	def test_signup_blank(self):
+		app.testing = True
+		tester = app.test_client(self)
+		response = tester.post('/signup', data=json.dumps(dict(username='',
+															password='',
+															first_name='Bruno',
+															last_name='Da Silva')),
+							content_type='application/json')
+		self.assertEqual(response.status_code, 204)
+
 	def test_signup_good(self):
 		app.testing = True
 		tester = app.test_client(self)
@@ -62,6 +74,22 @@ class FlaskTests(unittest.TestCase):
 															last_name='Da Silva')),
 							content_type='application/json')
 		self.assertEqual(response.status_code, 200)
+
+	def test_signup_existing(self):
+		app.testing = True
+		tester = app.test_client(self)
+		name_to_save = names.get_first_name()
+		tester.post('/signup', data=json.dumps(dict(username=name_to_save,
+															password='1234',
+															first_name='Bruno',
+															last_name='Da Silva')),
+							content_type='application/json')
+		response = tester.post('/signup', data=json.dumps(dict(username=name_to_save,
+															password='1234',
+															first_name='Bruno',
+															last_name='Da Silva')),
+							content_type='application/json')
+		self.assertEqual(response.status_code, 204)
 
 
 
