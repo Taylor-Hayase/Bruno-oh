@@ -138,11 +138,10 @@ def get_item(listNum, itemId):
                 return jsonify(itemos[0]), 200
     elif request.method == 'DELETE':
         listos = User().find_list(user_id, listNum)
-        if int(listNum) in listos:
-            itemos = User().find_Item(user_id, listNum, int(itemId))
-            if len(itemos) == 1:
-                newList = User().delete_item(user_id, listNum, int(itemId))
-                return {}, 200
+        itemos = User().find_Item(user_id, listNum, int(itemId))
+        if len(itemos) == 1:
+            newList = User().delete_item(user_id, listNum, int(itemId))
+            return {}, 200
     elif request.method == 'POST':
         item = request.get_json()
         listos = User().find_list(user_id, listNum)
