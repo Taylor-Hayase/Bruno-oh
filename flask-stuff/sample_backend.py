@@ -21,7 +21,6 @@ def hello_world():
 
 user_id = ""
 user_obj = ""
-listCounter = 1
 
 users = {
    'users_list':
@@ -104,6 +103,7 @@ def create_list():
             maxo = max(maxo, li["idCount"])
         return jsonify({"lists": names, "numLists": len(listos), "idCount": maxo+1}), 200
     return {}, 204
+
 @app.route('/list/<listId>/',methods=['GET', 'DELETE', 'PATCH'])
 def del_list(listId):
     global user_id

@@ -30,37 +30,28 @@ class Model(dict):
             self.items.update(
                 { "_id": ObjectId(self._id) }, self)
         self._id = str(self._id)
-
+    '''
     def reload(self):
         if self._id:
             self.update(self.collection\
                     .find_one({"_id": ObjectId(self._id)}))
             self._id = str(self._id)
-
     def reloadItem(self):
         if self._id:
             self.update(self.items\
                     .find_one({"_id": ObjectId(self._id)}))
             self._id = str(self._id)
-
+    '''
     def remove(self):
         if self._id:
             self.collection.remove({"_id": ObjectId(self._id)})
             self.clear()
 
 class User(Model):
-    db_client = pymongo.MongoClient('localhost', 27017)
+    db_client = pymongo.MongoClient('mongodb+srv://msblue:Brunos_hos@cluster0-sxjlm.mongodb.net/Project0?retryWrites=true&w=majority', 27017)
     collection = db_client["users"]["users_list"]
     lists = db_client["users"]["lists"]
     items = db_client["users"]["items"]
-
-    def add_user(self, user):
-        return None
-    def add_list(self, user, listo):
-        return None
-    def add_item(self, user, listo, item):
-        return None
-    
 
     def find_all(self):
         users = list(self.collection.find())
@@ -98,8 +89,6 @@ class User(Model):
         for Item in Items:
             Item["_id"] = str(Item["_id"])
         return Items
-    def delete_user(self, user):
-        return None
     def delete_list(self, name, listId):
         items = list(self.items.find({"userID": name, "idCount":listId}))
         for li in items:
