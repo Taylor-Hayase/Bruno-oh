@@ -34,8 +34,8 @@ class FlaskTests(unittest.TestCase):
         def test_sign_in_good(self):
             app.testing = True
             tester = app.test_client(self)
-            response = tester.post('/signup', data=json.dumps(dict(username=names.get_first_name(), password='1234', first_name='Bruno', last_name='Da Silva')), content_type='application/json')
-            response = tester.post('/', data=json.dumps(dict(username=names.get_first_name(), password='1234')), content_type='application/json')
+            response = tester.post('/signup', data=dict(username=names.get_first_name(), password='1234', first_name='Bruno', last_name='Da Silva'), content_type='application/json')
+            tester.post('/', data=json.dumps(dict(username=names.get_first_name(), password='1234')), content_type='application/json')
             self.assertEqual(response.status_code, 200)
 
         #tests for signing up
@@ -135,15 +135,6 @@ class FlaskTests(unittest.TestCase):
 							 content_type='application/json')
             response = tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type='application/json')
             self.assertEqual(response.status_code, 200)
-	
-        '''def test_item_post_dup_item(self):
-            app.testing = True
-            tester = app.test_client(self)
-            tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
-							 content_type='application/json')
-            tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type = 'application/json')
-            response = tester.post('/list/1/1/', data=json.dumps(dict(idCount=1,text='finish this', key='',checked=False, due = '')), content_type = 'application/json')
-            self.assertEqual(response.status_code, 204)'''
 	
         def test_item_get_item_exists(self):
             app.testing = True
