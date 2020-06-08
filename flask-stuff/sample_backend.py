@@ -21,7 +21,6 @@ def hello_world():
 
 user_id = ""
 user_obj = ""
-listCounter = 1
 
 users = {
    'users_list':
@@ -92,12 +91,8 @@ def create_list():
     global user_obj
     if request.method == 'POST':
         listo = request.get_json()
-        #listos = User().find_all_lists(user_id)
-        # could be elaborate here to deal with listcounter
-        #global listCounter
         listo["userID"] = user_id
         newlist = User(listo)
-        #listCounter += 1
         newlist.saveList()
         newlist["_id"] = str(newlist["_id"])
         return jsonify(list(newlist)), 200
@@ -110,6 +105,7 @@ def create_list():
             maxo = max(maxo, li["idCount"])
         return jsonify({"lists": names, "numLists": len(listos), "idCount": maxo+1}), 200
     return {}, 204
+
 @app.route('/list/<listId>/',methods=['GET', 'DELETE', 'PATCH'])
 def del_list(listId):
     global user_id
