@@ -177,6 +177,17 @@ class TodoList extends Component {
       for (i = 0; i < this.state.items.length; i++) {
         this.delete(this.state.items[i].key);
       }
+      var html = "http://localhost:5000/list/" + this.props.id + "/";
+      return axios
+        .delete(html)
+        .then(function (response) {
+          console.log(response);
+          return response;
+        })
+        .catch(function (error) {
+          console.log(error);
+          return false;
+        });
     }
   };
 
