@@ -37,19 +37,14 @@ class Register extends Component {
         username: this.state.username,
         password: this.state.password,
       };
-      console.log(payload);
       axios
         .post(apiBaseUrl + "/signup", payload)
         .then(function (response) {
-          console.log(response);
           if (response.status === 200) {
             var loginscreen = [];
-            console.log("registration successful");
             self.setState({ loginsucc: true });
-            //console.log(response.data._id);
             window.user = response.data._id;
             window.user_id = response.data._id;
-            //console.log(window.user_id);
             var loginmessage = "Not Registered yet. Go to registration";
             self.props.parentContext.setState({
               loginscreen: loginscreen,

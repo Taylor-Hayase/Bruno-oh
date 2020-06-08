@@ -50,19 +50,13 @@ class TodoList extends Component {
   }
 
   makePatchCall(items) {
-    //html is ... this.state.user + list + this.props.id
-    //this is to update item in list
     var html = "http://localhost:5000/list/" + this.props.id + "/";
-    console.log("here bitch");
-    console.log(items);
     return axios
       .patch(html, items)
       .then(function (response) {
-        console.log(response);
         return response;
       })
       .catch(function (error) {
-        console.log(error);
         return false;
       });
   }
@@ -87,26 +81,20 @@ class TodoList extends Component {
         this._inputElement.value = "";
         this._inputTime.value = "";
       });
-      console.log(this.state.items);
       e.preventDefault();
     }
   }
 
   makePostCall(item) {
-    //html is now ... this.state.user + list + this.props.id
-    //for item
     console.log(item);
     var html =
       "http://localhost:5000/list/" + this.props.id + "/" + item.key + "/";
     return axios
       .post(html, item)
       .then(function (response) {
-        console.log(response);
-        console.log(this.state.user);
         return response;
       })
       .catch(function (error) {
-        console.log(error);
         return false;
       });
   }
@@ -127,16 +115,13 @@ class TodoList extends Component {
   }
   makeDeleteCall(key) {
     //for item
-    console.log(key);
     var html = "http://localhost:5000/list/" + this.props.id + "/";
     return axios
       .delete(html.concat(key + "/"))
       .then(function (response) {
-        console.log(response);
         return response;
       })
       .catch(function (error) {
-        console.log(error);
         return false;
       });
   }
@@ -180,11 +165,9 @@ class TodoList extends Component {
       return axios
         .delete(html)
         .then(function (response) {
-          console.log(response);
           return response;
         })
         .catch(function (error) {
-          console.log(error);
           return false;
         });
     }
@@ -222,18 +205,10 @@ class TodoList extends Component {
 
   componentDidMount() {
     this.setState({ user: window.user_id });
-    if (this.state.user !== "") {
-      console.log("A logged in user");
-    } else {
-      console.log("A guest user");
-    }
-    console.log(this.props.id);
     var html = "http://localhost:5000/list/" + this.props.id + "/";
     axios
       .get(html)
       .then((res) => {
-        console.log("you");
-        console.log(res);
         const items = res.data;
         this.setState({ items: items });
         if (this.items.length !== 0) {

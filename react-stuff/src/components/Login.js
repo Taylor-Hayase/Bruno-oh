@@ -94,20 +94,14 @@ class Login extends Component {
     axios
       .post("http://localhost:5000/", payload)
       .then(function (response) {
-        console.log(response);
         if (response.status === 200) {
-          console.log("Login successful");
           //here we retrieve the _id from response to save
           window.user_id = response.data[0]._id;
-          console.log(response.data[0]._id);
-          console.log(window.user_id);
           window.user_id = response.data._id;
           self.setState({ loginsucc: true });
         } else if (response.status === 204) {
-          console.log("Username password do not match");
           alert(response.data.success);
         } else {
-          console.log("Username does not exists");
           alert("Username does not exist");
         }
       })
