@@ -89,7 +89,7 @@ class FlaskTests(unittest.TestCase):
             self.assertEqual(response.status_code, 204)
 
 	#testing list/
-        def test_list_get(self):
+        def test_list_get1(self):
             app.testing = True
             tester = app.test_client(self)
             response = tester.get('/list/', content_type='html/text')
