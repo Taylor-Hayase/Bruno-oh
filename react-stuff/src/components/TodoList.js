@@ -158,7 +158,6 @@ class TodoList extends Component {
           items[i].checked = true;
           this.setState({ items });
         }
-        //makePatchCall(this.state.items)
         this.makePatchCall(this.state.items).then((callResult) => {
           this.setState((prevState) => {
             return {
