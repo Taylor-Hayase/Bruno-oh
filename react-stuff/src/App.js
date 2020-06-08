@@ -13,10 +13,6 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        {/*<div className="App">
-          {this.state.loginPage}
-          {this.state.uploadScreen}
-        </div>*/}
         <div>
           <Navigation />
           <Switch>

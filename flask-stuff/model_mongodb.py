@@ -48,7 +48,7 @@ class Model(dict):
             self.clear()
 
 class User(Model):
-    db_client = pymongo.MongoClient('mongodb+srv://msblue:Brunos_hos@cluster0-sxjlm.mongodb.net/Project0?retryWrites=true&w=majority', 27017)
+    db_client = pymongo.MongoClient('mongodb+srv://tayhay:thayase@cluster0-sxjlm.mongodb.net/Project0?retryWrites=true&w=majority', 27017)
     collection = db_client["users"]["users_list"]
     lists = db_client["users"]["lists"]
     items = db_client["users"]["items"]
@@ -93,8 +93,6 @@ class User(Model):
         items = list(self.items.find({"userID": name, "idCount":listId}))
         for li in items:
             self.items.delete_one({"userID":name,"idCount":listId, "key":li["_id"]})
-        print(name, listId)
-        print("HERE", list(self.lists.find({"userID": name, "idCount": int(listId)})))
         self.lists.delete_one({"userID": name, "idCount":int(listId)}) 
     def delete_item(self, userId, listId, itemId):
         return self.items.delete_one({"userID":userId, "idCount":listId, "key":itemId})
