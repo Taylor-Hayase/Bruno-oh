@@ -86,18 +86,12 @@ def sign_up():
         return {}, 204 
 @app.route('/list/',methods=['GET', 'POST'])
 def create_list():
-    #get = get the lists for the user
-    #post = add a new empty list to user 
     global user_id
     global user_obj
     if request.method == 'POST':
         listo = request.get_json()
-        #listos = User().find_all_lists(user_id)
-        # could be elaborate here to deal with listcounter
-        #global listCounter
         listo["userID"] = user_id
         newlist = User(listo)
-        #listCounter += 1
         newlist.saveList()
         newlist["_id"] = str(newlist["_id"])
         return jsonify(list(newlist)), 200
@@ -117,7 +111,6 @@ def del_list(listId):
     if request.method == 'DELETE':
         User().delete_list(user_id, listId)
         return {}, 200
-    #get this
     elif request.method == "GET":
         itemos = (User().find_all_items(user_id, listId))
         return jsonify(itemos), 200
@@ -148,7 +141,6 @@ def get_item(listNum, itemId):
             else:
                 return jsonify(itemos[0]), 200
     elif request.method == 'DELETE':
-        #not correct
         listos = User().find_list(user_id, listNum)
         if int(listNum) in listos:
             itemos = User().find_Item(user_id, listNum, int(itemId))
