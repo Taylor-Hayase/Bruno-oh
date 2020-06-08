@@ -9,7 +9,7 @@ import pymongo
 
 from util import load_fixture
 from model_mongodb import *
-
+from sample_backend import app
 
 class MongoTemporaryInstance(object):
     """Singleton to manage a temporary MongoDB instance
@@ -93,5 +93,6 @@ class TestCase(unittest.TestCase):
 
         for fixture in self.fixtures:
             load_fixture(self.conn, fixture)
-	def test_save()
+
+            
 
