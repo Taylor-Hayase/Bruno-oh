@@ -34,7 +34,7 @@ class FlaskTests(unittest.TestCase):
         def test_sign_in_good(self):
             app.testing = True
             tester = app.test_client(self)
-            response = tester.post('/signup', data=dict(username=names.get_first_name(), password='1234', first_name='Bruno', last_name='Da Silva'), content_type='application/json')
+            response = tester.post('/signup', data=json.dumps(dict(username=names.get_first_name(), password='1234', first_name='Bruno', last_name='Da Silva'), content_type='application/json'))
             tester.post('/', data=json.dumps(dict(username=names.get_first_name(), password='1234')), content_type='application/json')
             self.assertEqual(response.status_code, 200)
 
