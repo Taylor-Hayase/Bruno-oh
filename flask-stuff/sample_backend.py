@@ -67,7 +67,7 @@ def sign_up():
     search_username = truth['username']
     search_password = truth['password']
     first_name = truth['first_name']
-    last_name =  truth['last_name']
+    last_name = truth['last_name']
     #print(search_username, search_password, first_name, last_name)
     if search_username and search_password:
         found = User().find_by_name(search_username)
