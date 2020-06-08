@@ -92,7 +92,52 @@ class FlaskTests(unittest.TestCase):
 							content_type='application/json')
 		self.assertEqual(response.status_code, 204)
 
+	#testing list/
+	def test_list_get(self):
+		app.testing = True
+		tester = app.test_client(self)
+		response = tester.get('/list/', content_type='html/text')
+		self.assertEqual(response.status_code, 200)
 
+	def test_list_post(self):
+		app.testing = True
+		tester = app.test_client(self)
+		response = tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
+							 content_type='application/json')
+		self.assertEqual(response.status_code, 200)
+
+	#testing list/<listID>
+	def test_list_get(self):
+		app.testing = True
+		tester = app.test_client(self)
+		tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
+							 content_type='application/json')
+		response = tester.get('/list/1/', content_type='html/text')
+		self.assertEqual(response.status_code, 200)
+
+	def test_list_del(self):
+		app.testing = True
+		tester = app.test_client(self)
+		tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
+							 content_type='application/json')
+		response = tester.delete('/list/1/', content_type='application/json')
+		self.assertEqual(response.status_code, 200)
+
+	def test_list_patch(self):
+		app.testing = True
+		tester = app.test_client(self)
+		tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
+							 content_type='application/json')
+		listo = tester.get('/list/1/', content_type='application/json')
+		response = tester.patch('/list/1/', data=listo.data, content_type='application/json')
+		self.assertEqual(response.status_code, 200)
+
+	#testing /list/<listNum>/<itemId>/
+	def test_item_post(self):
+		app.testing = True
+		tester = app.test_client(self)
+		tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
+							 content_type='application/json')
 
 if __name__ == '__main__':
 	unittest.main()
