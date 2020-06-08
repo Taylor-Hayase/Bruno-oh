@@ -3,5 +3,6 @@ db_client = pymongo.MongoClient('mongodb+srv://msblue:Brunos_hos@cluster0-sxjlm.
 collection = db_client["users"]["users_list"]
 lists = db_client["users"]["lists"]
 items = db_client["users"]["items"]
+collection.drop()
 items.drop()
 lists.drop()
