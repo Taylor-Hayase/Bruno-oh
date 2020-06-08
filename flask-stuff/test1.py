@@ -159,7 +159,7 @@ class FlaskTests(unittest.TestCase):
             tester = app.test_client(self)
             tester.post('/list/', data=json.dumps(dict(idCount=1, lName='List 1')),
 							 content_type='application/json')
-            response = tester.get('/list/1/1/', content_type='html/text')
+            response = tester.get('/list/1/1/', content_type='application/json')
             self.assertEqual(response.status_code, 204)
        
         def test_item_delete_item_exists(self):
